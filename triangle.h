@@ -12,6 +12,7 @@ class Triangle
 {
 	public:
 		Triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3);
+		Triangle(const Edge &e1, const Edge &e2, const Edge &e3);
   		
 		Vec2f const & getP1() const { return _p1; } 
 		Vec2f const & getP2() const { return _p2; }

@@ -5,12 +5,12 @@
 
 std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 {
+	// Init stuff
 	const int nvertices = vertices.size();
-
 	assert(nvertices > 2 && "Need more thant 3 vertices to triangulate");
-
 	const int trmax = nvertices * 4; 	
 
+	// Determinate the super triangle
 	float minX = vertices[0].getX();
 	float minY = vertices[0].getY();
 	float maxX = minX;
@@ -37,59 +37,77 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	Vec2f p1(midx - 2 * deltaMax, midy - deltaMax);
 	Vec2f p2(midx, midy + 2 * deltaMax);
 	Vec2f p3(midx + 2 * deltaMax, midy - deltaMax);	
-	p1.id = nvertices + 1;
-	p2.id = nvertices + 2;
-	p3.id = nvertices + 3;
+	
+	// Add the super triangle vertices to the end of the vertex list
 	vertices.push_back(p1);
 	vertices.push_back(p2);
 	vertices.push_back(p3);
 
+	// Add the super triangle to the triangle list
+	std::vector<Triangle> triangleList = {Triangle(p1, p2, p3)};
 
-	std::vector<Triangle> triangles;
-	triangles.push_back(Triangle(p1, p2, p3));
-
-	for(int i = 0; i < static_cast<int>(vertices.size()); ++i) {
-		std::vector<Edge> edges;
-
-		for(int j = static_cast<int>(triangles.size()); j-- > 0; ) {
-			Triangle curTriangle = triangles[j];
-
-			if (curTriangle.inCircumCircle(vertices[i])) {
-				edges.push_back(curTriangle.getE1());
-				edges.push_back(curTriangle.getE2());
-				edges.push_back(curTriangle.getE3());
-				triangles.erase(triangles.begin() + j);
-			}	
-		}
-
-		for(int j = static_cast<int>(edges.size()) - 1; --j > 0; ) {
-			for(int k = edges.size(); --k > j + 1; ) {
-				if(edges[j].same(edges[k])) {
-					edges.erase(edges.begin() + j);	
-					edges.erase(edges.begin() + k - 1);
-					--k;
-				}
+	// For each point in the vertex list
+	for(auto point = vertices.begin(); point != vertices.end(); point++) 
+	{
+		// Initialize the edges buffer
+		std::vector<Edge> edgesBuff;
+		
+		// For each triangles currently in the triangle list	
+		for(auto triangle = triangleList.begin(); triangle != triangleList.end();) 
+		{
+			if(triangle->inCircumCircle(*point))
+			{
+				Edge tmp[3] = {triangle->getE1(), triangle->getE2(), triangle->getE3()};
+				edgesBuff.insert(edgesBuff.end(), tmp, tmp + 3);
+				triangle = triangleList.erase(triangle);
+			}
+			else
+			{
+				triangle++;
 			}
 		}
 
-		for(int j = 0; j < static_cast<int>(edges.size()); ++j) {
-			int n = triangles.size();
-			std::cout << n << " " << trmax << std::endl;
-			assert(n <= trmax && "Generated more than needed triangles");	
-			triangles.push_back(Triangle(edges[j].getP1(), edges[j].getP2(), vertices[i]));
+		// Delete all doubly specified edges from the edge buffer
+		for(auto i = edgesBuff.begin(); i != edgesBuff.end();)
+		{
+			bool deleted = false;
+			for(auto j = edgesBuff.begin(); j != edgesBuff.end();)
+			{
+				if(i == j)
+				{
+					std::cout << "Same iterator lol! Passing" << std::endl;
+					continue;
+				}	
+			
+				if(i->same(*j))
+				{
+					std::cout << "Double! Process deleting" << std::endl;
+					deleted = true;
+					i = edgesBuff.erase(i);
+					j = edgesBuff.erase(j);			
+				}
+				else
+				{
+					std::cout << "Nothing happend, incrementing j" << std::endl;
+					j++;
+				} 
+			}
+		
+			if(!deleted)
+			{
+				std::cout << "Nothing happend, incrementing i" << std::endl;	
+				i++;
+			}
 		}
-	}
+		
+		std::cout << "displaying edges" << std::endl;
+		for(auto &e : edgesBuff)
+			std::cout << e << std::endl;
+	
+    }
 
-	for(int i = static_cast<int>(triangles.size()); --i > 0; ) {
-		Triangle triangle = triangles[i];
-		if(triangle.getP1().id > static_cast<int>(nvertices) ||
-			triangle.getP2().id > static_cast<int>(nvertices) ||
-			triangle.getP3().id > static_cast<int>(nvertices)) {
-			triangles.erase(triangles.begin() + i);
-		}
-	}
 
-	return triangles;
+	return triangleList;
 }
 
 /*	

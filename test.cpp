@@ -10,6 +10,7 @@
 #include "delaunay.h"
 
 typedef Vector2<float> Vec2f;
+//using Vec2f = Vector2<float>; 
 
 TEST_CASE("Vector2", "[vector2.h]")
 {
@@ -286,10 +287,22 @@ TEST_CASE("Triangle", "[triangle.h]")
 
 TEST_CASE("Delaunay", "[delaunay.h]")
 {
+	/*
 	SECTION("Throws an assert for 1 vertice")
 	{
 		std::vector<Vec2f> v;
 		v.push_back(Vec2f(0, 0));
 		CHECK_THROWS(Delaunay::triangulate(v));
+	}
+	*/
+
+	SECTION("Return a unique triangle made when receiving 3 vertices")
+	{
+		std::vector<Vec2f> v = {Vec2f(0.f, 0.f), Vec2f(2.f, 0.f), Vec2f(1.f, 1.f)};
+		std::vector<Triangle> t = Delaunay::triangulate(v);
+		for(auto &i : t) 
+			std::cout << i << std::endl;
+
+		std::cout << "Those are the triangles" << std::endl;
 	}
 }

@@ -52,6 +52,12 @@ class Vector2
             return _y;
         }
 
+		void set(const Vector2 &v)
+		{
+			_x = v.getX();
+			_y = v.getY();
+		}
+
 		void set(T x, T y)
         {
             _x = x;
