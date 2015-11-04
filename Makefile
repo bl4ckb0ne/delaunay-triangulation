@@ -8,7 +8,7 @@ SRC = $(wildcard *.cpp) $(wildcard **/*.cpp)
 SRC := $(filter-out test.cpp, $(SRC))
 OBJ = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
-CXXFLAGS = -std=c++1z -O3 -w -Wall -Wextra -Winline -Wfatal-errors -fno-rtti -ggdb -D_GLIBCXX_DEBUG -pthread
+CXXFLAGS = -std=c++1z -Wall -Wextra -Wfatal-errors -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -pthread
 
 all: $(EXE)
 
@@ -37,7 +37,7 @@ dir:
 	mkdir -p $(BUILD_DIR)
 
 test:
-	$(CXX) -std=c++1z -O3 test.cpp edge.cpp triangle.cpp delaunay.cpp -o test
+	$(CXX) -std=c++1z test.cpp edge.cpp triangle.cpp delaunay.cpp -o test
 	./test
 	rm test
 

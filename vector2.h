@@ -16,27 +16,18 @@ class Vector2
 		{
 			_x = 0;
 			_y = 0;
-			id = 0;
 		}
 
 		Vector2(T x, T y) 
 		{
 			_x = x;
 			_y = y;
-			
-			if(x == 0 && y == 0)
-				id = 0;
-			else if(x == 0 && y != 0)
-				id = y;
-			else
-				id = x;
 		}
 
 		Vector2(const Vector2 &v)
 		{
 			_x = v.getX();
 			_y = v.getY();
-			id = v.id;
 		}
 
 		//
@@ -102,8 +93,12 @@ class Vector2
 			return ((dx * dx + dy * dy) <= (r * r));
 		}	
 
+		bool same(const Vector2 &v)
+		{
+			return (_x == v.getX() && _y == v.getY()) ||
+				   (_x == v.getY() && _y == v.getX());
+		}
 
-		int id;
 	private:
 		T _x;
 		T _y;

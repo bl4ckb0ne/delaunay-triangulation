@@ -33,6 +33,5 @@ inline bool operator == (const Edge & e1, const Edge & e2)
 	return 	e1.getP1() == e2.getP1() && e1.getP2() == e2.getP2();
 }
 
-
 #endif 
 

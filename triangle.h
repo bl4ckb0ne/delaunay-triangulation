@@ -30,6 +30,8 @@ class Triangle
 		float getCircumRadius();		
 		float getArea();
 		bool inCircumCircle(Vec2f &p);
+		bool containsEdge(const Edge &e);
+		bool containsVertex(const Vec2f &v);
 	
 	private:
 		Vec2f _p1;

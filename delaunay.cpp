@@ -1,5 +1,9 @@
 #include "delaunay.h"
 
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <iterator>
 #include <cmath>
 #include <assert.h>
 
@@ -17,7 +21,6 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	float maxY = minY;
 
 	for(std::size_t i = 0; i < vertices.size(); ++i) {
-		vertices[i].id = static_cast<int>(i);
 		if (vertices[i].getX() < minX) 
 			minX = vertices[i].getX();
     	if (vertices[i].getY() < minY)
@@ -31,12 +34,12 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	float dx = maxX - minX;
 	float dy = maxY - minY;
 	float deltaMax = std::max(dx, dy);
-	float midx = (minX + maxX) * 0.5;
-	float midy = (minY + maxY) * 0.5;
+	float midx = (minX + maxX) / 2.f;
+	float midy = (minY + maxY) / 2.f;
 
-	Vec2f p1(midx - 2 * deltaMax, midy - deltaMax);
-	Vec2f p2(midx, midy + 2 * deltaMax);
-	Vec2f p3(midx + 2 * deltaMax, midy - deltaMax);	
+	Vec2f p1(midx - 20 * deltaMax, midy - deltaMax);
+	Vec2f p2(midx, midy + 20 * deltaMax);
+	Vec2f p3(midx + 20 * deltaMax, midy - deltaMax);	
 	
 	// Add the super triangle vertices to the end of the vertex list
 	vertices.push_back(p1);
@@ -68,44 +71,45 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 		}
 
 		// Delete all doubly specified edges from the edge buffer
-		for(auto i = edgesBuff.begin(); i != edgesBuff.end();)
-		{
-			bool deleted = false;
-			for(auto j = edgesBuff.begin(); j != edgesBuff.end();)
-			{
-				if(i == j)
-				{
-					std::cout << "Same iterator lol! Passing" << std::endl;
-					continue;
-				}	
-			
-				if(i->same(*j))
-				{
-					std::cout << "Double! Process deleting" << std::endl;
-					deleted = true;
-					i = edgesBuff.erase(i);
-					j = edgesBuff.erase(j);			
-				}
-				else
-				{
-					std::cout << "Nothing happend, incrementing j" << std::endl;
-					j++;
-				} 
-			}
-		
-			if(!deleted)
-			{
-				std::cout << "Nothing happend, incrementing i" << std::endl;	
-				i++;
-			}
+		// Black magic by https://github.com/MechaRage 
+
+		auto ite = begin(edgesBuff), last = end(edgesBuff);
+    
+		while(ite != last) {
+			// Search for at least one duplicate of the current element
+			auto twin = std::find(ite + 1, last, *ite);
+			if(twin != last)
+				// If one is found, push them all to the end.
+				last = std::partition(ite, last, [&ite](auto const &o){ return !(o == *ite); });
+			else
+				++ite;
 		}
 		
-		std::cout << "displaying edges" << std::endl;
-		for(auto &e : edgesBuff)
-			std::cout << e << std::endl;
+		// Remove all the duplicates, which have been shoved past "last".
+		edgesBuff.erase(last, end(edgesBuff));
+
+
+		//std::cout << "ITER" << std::endl;	
+		//for(auto &e :edgesBuff)
+		//	std::cout << e << std::endl;
+	
+		// Add the triangle to the list
+		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
+		{
+			triangleList.push_back(Triangle(edge->getP1(), edge->getP2(), *point));
+		}
+		
 	
     }
 
+	// Remove any triangles from the triangle list that use the supertriangle vertices
+	std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](auto t){
+		return t.containsVertex(p1) || t.containsVertex(p2) || t.containsVertex(p3);
+	});
+	
+	vertices.pop_back();
+	vertices.pop_back();
+	vertices.pop_back();
 
 	return triangleList;
 }

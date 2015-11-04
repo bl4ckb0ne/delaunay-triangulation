@@ -8,14 +8,14 @@ Triangle::Triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3)
 	:	_p1(p1), _p2(p2), _p3(p3),
 		_e1(p1, p2), _e2(p2, p3), _e3(p3, p1)
 {
-	assert(!Delaunay::isFlatAngle(_p1, _p2, _p3) && "angle(p1, p2, p3 is flat");
+	//assert(!Delaunay::isFlatAngle(_p1, _p2, _p3) && "angle(p1, p2, p3 is flat");
 }
 
 Triangle::Triangle(const Edge &e1, const Edge &e2, const Edge &e3)
 	:	_p1(e1.getP1()), _p2(e2.getP1()), _p3(e3.getP1()),
 		_e1(e1), _e2(e2), _e3(e3)
 {
-	assert(!Delaunay::isFlatAngle(_p1, _p2, _p3) && "angle(p1, p2, p3 is flat");
+	//assert(!Delaunay::isFlatAngle(_p1, _p2, _p3) && "angle(p1, p2, p3 is flat");
 }
 
 bool Triangle::isCW()
@@ -80,4 +80,14 @@ bool Triangle::inCircumCircle(Vec2f &p)
 {
 	Vec3f v(getCircumCircle());
 	return p.isInCircle(v.getX(), v.getY(), v.getZ());
+}
+
+bool Triangle::containsEdge(const Edge &e)
+{
+	return _e1.same(e) || _e2.same(e) || _e3.same(e);
+}
+
+bool Triangle::containsVertex(const Vec2f &v)
+{
+	return _p1.same(v) || _p2.same(v) || _p3.same(v); 
 }

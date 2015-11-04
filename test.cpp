@@ -283,6 +283,22 @@ TEST_CASE("Triangle", "[triangle.h]")
 		REQUIRE(Triangle(p1, p2, p3).isCCW());
 		REQUIRE_FALSE(Triangle(p1, p3, p2).isCCW());
 	}
+
+	SECTION("Check if the triangle contains an edge")
+	{
+		Vec2f p1(0.f, 0.f);
+		Vec2f p2(1.f, 0.f);
+		Vec2f p3(1.f, 1.f);
+		Vec2f p4(2.f, 1.f);
+		Triangle t(p1, p2, p3);	
+		REQUIRE(t.containsEdge(Edge(p1, p2)));
+		REQUIRE(t.containsEdge(Edge(p1, p3)));
+		REQUIRE(t.containsEdge(Edge(p2, p1)));
+		REQUIRE(t.containsEdge(Edge(p2, p3)));
+		REQUIRE(t.containsEdge(Edge(p3, p1)));
+		REQUIRE(t.containsEdge(Edge(p3, p2)));
+		REQUIRE_FALSE(t.containsEdge(Edge(p1, p4)));
+	}
 }
 
 TEST_CASE("Delaunay", "[delaunay.h]")
