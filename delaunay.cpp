@@ -89,10 +89,6 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 		edgesBuff.erase(last, end(edgesBuff));
 
 
-		//std::cout << "ITER" << std::endl;	
-		//for(auto &e :edgesBuff)
-		//	std::cout << e << std::endl;
-	
 		// Add the triangle to the list
 		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
 		{
@@ -103,13 +99,9 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
     }
 
 	// Remove any triangles from the triangle list that use the supertriangle vertices
-	std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](auto t){
+	triangleList.erase(std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](auto t){
 		return t.containsVertex(p1) || t.containsVertex(p2) || t.containsVertex(p3);
-	});
-	
-	vertices.pop_back();
-	vertices.pop_back();
-	vertices.pop_back();
+	}), end(triangleList));
 
 	return triangleList;
 }
