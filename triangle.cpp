@@ -1,6 +1,7 @@
 #include "triangle.h"
 
 #include <assert.h>
+#include <math.h>
 
 #include "delaunay.h"
 
@@ -33,61 +34,67 @@ Vec3f Triangle::getSidesLength()
 	return Vec3f(_e1.length(), _e2.length(), _e3.length());
 }
 
-Vec2f Triangle::getCenter()
-{
-	float x = (_p1.getX() + _p2.getX() + _p3.getX()) / 3;
-	float y = (_p1.getY() + _p2.getY() + _p3.getY()) / 3;
-	return Vec2f(x, y);
-}
-
-Vec3f Triangle::getCircumCircle()
-{
-	Vec2f v(getCircumCenter());
-	return Vec3f(v.getX(), v.getY(), getCircumRadius());
-}
-
-Vec2f Triangle::getCircumCenter()
-{
-	float D = (	_p1.getX() * (_p2.getY() - _p3.getY()) +
-				_p2.getX() * (_p3.getY() - _p1.getY()) + 
-				_p3.getX() * (_p1.getY() - _p2.getY())) * 2;
-
-	float x = ((_p1.getX() * _p1.getX() + _p1.getY() * _p1.getY()) * (_p2.getY() - _p3.getY()) +
-			   (_p2.getX() * _p2.getX() + _p2.getY() * _p2.getY()) * (_p3.getY() - _p1.getY()) +
-			   (_p3.getX() * _p3.getX() + _p3.getY() * _p3.getY()) * (_p1.getY() - _p2.getY()));
-
-
-	float y = ((_p1.getX() * _p1.getX() + _p1.getY() * _p1.getY()) * (_p3.getX() - _p2.getX()) +
-			   (_p2.getX() * _p2.getX() + _p2.getY() * _p2.getY()) * (_p1.getX() - _p3.getX()) +
-			   (_p3.getX() * _p3.getX() + _p3.getY() * _p3.getY()) * (_p2.getX() - _p1.getX()));
-
-	return Vec2f((x / D), (y / D));
-}
-
-float Triangle::getCircumRadius()
-{
-	Vec3f v(getSidesLength());
-	return ((v.getX() * v.getY() * v.getZ()) / Delaunay::quatCross(v.getX(), v.getY(), v.getZ()));
-}
-
-float Triangle::getArea()
-{
-	Vec3f v(getSidesLength());
-	return (Delaunay::quatCross(v.getX(), v.getY(), v.getZ()) / 4);	
-}
-
 bool Triangle::inCircumCircle(Vec2f &p)
 {
-	Vec3f v(getCircumCircle());
-	return p.isInCircle(v.getX(), v.getY(), v.getZ());
+	float EPSILON = 0.000001f;
+	float xc, yc;
+	float y1y2 = fabs(_p1.getY() - _p2.getY());
+	float y2y3 = fabs(_p2.getY() - _p3.getY());
+
+	if(y1y2 < EPSILON && y2y3 < EPSILON)
+		return false;
+
+	if(y1y2 < EPSILON) 
+	{
+		float m2 = -(_p3.getX() - _p2.getX()) / (_p3.getY() - _p2.getY());
+		float mx2 = (_p2.getX() + _p3.getX()) / 2.f;
+		float my2 = (_p2.getY() + _p3.getY()) / 2.f;
+		xc = (_p2.getX() + _p1.getX()) / 2.f;
+		yc = m2 * (xc - mx2) + my2;
+	}
+	else if(fabs(_p3.getY() - _p2.getY()) < EPSILON)
+	{
+		float m1 = -(_p2.getX() - _p1.getX()) / (_p2.getY() - _p1.getY());
+		float mx1 = (_p1.getX() + _p2.getX()) / 2.f;
+		float my1 = (_p1.getY() + _p2.getY()) / 2.f;
+		xc = (_p3.getX() + _p2.getX() / 2.f);
+		yc = m1 * (xc - mx1) + my1;
+	}
+	else
+	{
+		float m1 = -(_p2.getX() - _p1.getX()) / (_p2.getY() - _p1.getY());
+		float m2 = -(_p3.getX() - _p2.getX()) / (_p3.getY() - _p2.getY());
+		float mx1 = (_p1.getX() + _p2.getX()) / 2.f;
+		float mx2 = (_p2.getX() + _p3.getX()) / 2.f;
+		float my1 = (_p1.getY() + _p2.getY()) / 2.f;
+		float my2 = (_p2.getY() + _p3.getY()) / 2.f;
+		xc = (m1 * mx1 - m2 * mx2 + my2 - my1) / (m1 - m2); 
+		yc = m1 * (xc - mx1) + my1;
+	}
+	
+
+	float dx = _p2.getX() - xc;
+	float dy = _p2.getY() - yc;
+	float rsqr = dx * dx + dy * dy;
+	dx = p.getX() - xc;
+	dy = p.getY() - yc;
+	float drsqr = dx * dx + dy + dy;
+	return ((drsqr <= rsqr) ? true : false);
 }
 
 bool Triangle::containsEdge(const Edge &e)
 {
-	return _e1.same(e) || _e2.same(e) || _e3.same(e);
+	return _e1 == e || _e2 == e || _e3 == e;
 }
 
 bool Triangle::containsVertex(const Vec2f &v)
 {
-	return _p1.same(v) || _p2.same(v) || _p3.same(v); 
+	return _p1 == v || _p2 == v || _p3 == v; 
+}
+
+bool Triangle::same(const Triangle &t)
+{
+	return	(_p1 == t.getP1() || _p1 == t.getP2() || _p1 == t.getP3()) &&
+			(_p2 == t.getP1() || _p2 == t.getP2() || _p2 == t.getP3()) && 
+			(_p3 == t.getP1() || _p3 == t.getP2() || _p3 == t.getP3());	
 }

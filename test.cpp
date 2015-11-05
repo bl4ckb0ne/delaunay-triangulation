@@ -116,9 +116,9 @@ TEST_CASE("Edge", "[edge.h]")
 		Edge e2(p1, p2);
 		Edge e3(p2, p1);
 		Edge e4(p1, p3);
-		REQUIRE(e1.same(e2));
-		REQUIRE(e1.same(e3));
-		REQUIRE_FALSE(e1.same(e4));	
+		REQUIRE(e1 == e2);
+		REQUIRE(e1 == e3);
+		REQUIRE_FALSE(e1 == e4);	
 	}
 
 	SECTION("==")
@@ -131,7 +131,7 @@ TEST_CASE("Edge", "[edge.h]")
 		Edge e3(p2, p1);
 		Edge e4(p1, p3);
 		REQUIRE(e1 == e2);
-		REQUIRE_FALSE(e1 == e3);
+		REQUIRE(e1 == e3);
 		REQUIRE_FALSE(e1 == e4);
 	}
 	
@@ -201,50 +201,6 @@ TEST_CASE("Triangle", "[triangle.h]")
     	REQUIRE(v.getZ() == sqrtf(2));
 	}
 
-	SECTION("Can evaluate the coordinates of the triangle center")
-	{
-		Vec2f p1(-1.f, 0.f);
-		Vec2f p2(1.f, 0.f);
-		Vec2f p3(0.f, 1.f);
-		Triangle t(p1, p2, p3);
-		Vec2f v(t.getCenter());
-		REQUIRE(v.getX() == 0.f);
-		REQUIRE(v.getY() == (1.f / 3.f));
-	}
-
-	SECTION("Can evaluate the coordinates of the triangle circumcenter")
-	{
-		Vec2f p1(5.f, 5.f);
-		Vec2f p2(10.f, 3.f);
-		Vec2f p3(9.f, 15.f);
-    	Triangle t(p1, p2, p3);
-    	Vec2f v(t.getCircumCenter());
-    	REQUIRE(v.getX() == 9.5f);
-    	REQUIRE(v.getY() == 9.f);
-	}
-
-	SECTION("Can evaluate the radius of the triangle circumcircle")
-	{
-		Vec2f p1(5.f, 5.f);
-		Vec2f p2(10.f, 3.f);
-		Vec2f p3(9.f, 15.f);
-		Triangle t(p1, p2, p3);
-		Vector3<float> v = t.getSidesLength();
-		float circumRadius = ((v.getX() * v.getY() * v.getZ()) / Delaunay::quatCross(v.getX(), v.getY(), v.getZ()));
-		REQUIRE(t.getCircumRadius() == circumRadius);	
-	}
-
-	SECTION("Can evaluate both circumcenter and circumradius")
-	{
-		Vec2f p1(5.f, 5.f);
-		Vec2f p2(10.f, 3.f);
-		Vec2f p3(9.f, 15.f);
-		Triangle t(p1, p2, p3);
-		Vector3<float> v = t.getCircumCircle();
-		REQUIRE(v.getX() == 9.5f);
-		REQUIRE(v.getY() == 9.f);
-	}
-
 	SECTION("Can test if a given point lies in a triangle's circumcircle")
 	{
 		Vec2f p1(0.f, 0.5f);
@@ -252,18 +208,8 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p3(1.01f, 1.01f);
 		Triangle t(Vec2f(-1.f, 0.f), Vec2f(1.f, 0.f), Vec2f(1.f, 1.f));
 		REQUIRE(t.inCircumCircle(p1));
-		REQUIRE(t.inCircumCircle(p2));
+		REQUIRE_FALSE(t.inCircumCircle(p2));
 		REQUIRE_FALSE(t.inCircumCircle(p3));
-	}
-
-	SECTION("Can evaluate the area of a triangle")
-	{
-		Vec2f p1(0.f, 0.f);
-		Vec2f p2(1.f, 0.f);
-		Vec2f p3(1.f, 1.f);
-		Triangle t(p1, p2, p3);
-		Vector3<float> v = t.getCircumCircle();
-		REQUIRE(t.getArea() == 0.5f);	
 	}
 
 	SECTION("Can evaluate if triangle is defined clockwise")
@@ -299,26 +245,46 @@ TEST_CASE("Triangle", "[triangle.h]")
 		REQUIRE(t.containsEdge(Edge(p3, p2)));
 		REQUIRE_FALSE(t.containsEdge(Edge(p1, p4)));
 	}
+		
+	SECTION("Check if 2 triangles are the same")
+	{
+		Vec2f p1(0.f, 0.f);
+		Vec2f p2(1.f, 0.f);
+		Vec2f p3(1.f, 1.f);
+		Triangle t1(p1, p2, p3);
+		Triangle t2(p2, p3, p1);
+		Triangle t3(p3, p2, p1);
+		REQUIRE(t1.same(t2));
+		REQUIRE(t2.same(t3));
+		REQUIRE(t3.same(t1));
+	}
 }
 
 TEST_CASE("Delaunay", "[delaunay.h]")
 {
-	/*
-	SECTION("Throws an assert for 1 vertice")
-	{
-		std::vector<Vec2f> v;
-		v.push_back(Vec2f(0, 0));
-		CHECK_THROWS(Delaunay::triangulate(v));
-	}
-	*/
-
 	SECTION("Return a unique triangle made when receiving 3 vertices")
-	{
-		std::vector<Vec2f> v = {Vec2f(0.f, 0.f), Vec2f(2.f, 0.f), Vec2f(1.f, 1.f)};
+	{	
+		Vec2f p1(0.f, 0.f);
+		Vec2f p2(2.f, 0.f);
+		Vec2f p3(1.f, 1.f);
+		std::vector<Vec2f> v = {p1, p2, p3};
 		std::vector<Triangle> t = Delaunay::triangulate(v);
-		for(auto &i : t) 
-			std::cout << i << std::endl;
+		REQUIRE(t[0].same(Triangle(p1, p2, p3)));
+	}
 
-		std::cout << "Those are the triangles" << std::endl;
+	SECTION("Return 2 triangles for those 4 vertices")
+	{
+		Vec2f p1(0.f, 0.f);
+		Vec2f p2(1.f, 0.f);
+		Vec2f p3(1.f, 1.f);
+		Vec2f p4(0.f, 1.f);
+		std::vector<Vec2f> v = {p1, p2, p3, p4};
+		std::vector<Triangle> t = Delaunay::triangulate(v);
+		
+		for(auto &tri : t)
+			std::cout << tri << std::endl;
+
+//		REQUIRE(t[0].same(Triangle(p2, p1, p4)));
+//		REQUIRE(t[1].same(Triangle(p3, p2, p4)));
 	}
 }

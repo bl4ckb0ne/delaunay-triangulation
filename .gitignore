@@ -2,3 +2,4 @@ test
 delaunay
 *.swp
 build/
+peda-session-delaunay.txt

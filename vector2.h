@@ -93,12 +93,6 @@ class Vector2
 			return ((dx * dx + dy * dy) <= (r * r));
 		}	
 
-		bool same(const Vector2 &v)
-		{
-			return (_x == v.getX() && _y == v.getY()) ||
-				   (_x == v.getY() && _y == v.getX());
-		}
-
 	private:
 		T _x;
 		T _y;

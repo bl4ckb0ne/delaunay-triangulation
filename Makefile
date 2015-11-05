@@ -24,7 +24,7 @@ delaunay.o: delaunay.cpp
 triangle.o: triangle.cpp
 	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
 
-edge.o: edge.cpp 
+edge.o: edge.h 
 	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
 
 vector2.o: vector2.h
@@ -37,7 +37,7 @@ dir:
 	mkdir -p $(BUILD_DIR)
 
 test:
-	$(CXX) -std=c++1z test.cpp edge.cpp triangle.cpp delaunay.cpp -o test
+	$(CXX) -std=c++1z test.cpp triangle.cpp delaunay.cpp -o test
 	./test
 	rm test
 

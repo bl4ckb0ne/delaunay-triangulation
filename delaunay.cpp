@@ -10,9 +10,7 @@
 std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 {
 	// Init stuff
-	const int nvertices = vertices.size();
-	assert(nvertices > 2 && "Need more thant 3 vertices to triangulate");
-	const int trmax = nvertices * 4; 	
+	assert(vertices.size() > 2 && "Need more thant 3 vertices to triangulate");
 
 	// Determinate the super triangle
 	float minX = vertices[0].getX();
@@ -21,14 +19,10 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	float maxY = minY;
 
 	for(std::size_t i = 0; i < vertices.size(); ++i) {
-		if (vertices[i].getX() < minX) 
-			minX = vertices[i].getX();
-    	if (vertices[i].getY() < minY)
-			minY = vertices[i].getY();
-    	if (vertices[i].getX() > maxX)
-			maxX = vertices[i].getX();
-    	if (vertices[i].getY() > maxY)
-			maxY = vertices[i].getY();
+		if (vertices[i].getX() < minX) minX = vertices[i].getX();
+    	if (vertices[i].getY() < minY) minY = vertices[i].getY();
+    	if (vertices[i].getX() > maxX) maxX = vertices[i].getX();
+    	if (vertices[i].getY() > maxY) maxY = vertices[i].getY();
 	}
 	
 	float dx = maxX - minX;
@@ -61,7 +55,7 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 			if(triangle->inCircumCircle(*point))
 			{
 				Edge tmp[3] = {triangle->getE1(), triangle->getE2(), triangle->getE3()};
-				edgesBuff.insert(edgesBuff.end(), tmp, tmp + 3);
+				edgesBuff.insert(edgesBuff.end(), tmp, tmp + 3);	
 				triangle = triangleList.erase(triangle);
 			}
 			else
@@ -72,7 +66,6 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 
 		// Delete all doubly specified edges from the edge buffer
 		// Black magic by https://github.com/MechaRage 
-
 		auto ite = begin(edgesBuff), last = end(edgesBuff);
     
 		while(ite != last) {
@@ -87,7 +80,6 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 		
 		// Remove all the duplicates, which have been shoved past "last".
 		edgesBuff.erase(last, end(edgesBuff));
-
 
 		// Add the triangle to the list
 		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
@@ -104,15 +96,6 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	}), end(triangleList));
 
 	return triangleList;
-}
-
-/*	
- *	Triangle semi-perimeter by Heron's formula
- */	
-float Delaunay::quatCross(float a, float b, float c)
-{
-	float p = (a + b + c) * (a + b - c) * (a - b + c) * (-a + b + c);
-	return sqrtf(p);
 }
 
 /*

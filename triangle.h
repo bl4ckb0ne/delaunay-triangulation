@@ -24,14 +24,10 @@ class Triangle
 		bool isCW();
 		bool isCCW();
 		Vec3f getSidesLength();		
-		Vec2f getCenter();
-		Vec3f getCircumCircle();
-		Vec2f getCircumCenter();
-		float getCircumRadius();		
-		float getArea();
 		bool inCircumCircle(Vec2f &p);
 		bool containsEdge(const Edge &e);
 		bool containsVertex(const Vec2f &v);
+		bool same(const Triangle &t);
 	
 	private:
 		Vec2f _p1;
