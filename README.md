@@ -1,6 +1,6 @@
 # delaunay-triangulation
 
-# Pseudo-code algorithm
+## Pseudo-code algorithm
 
 ```
 subroutine triangulate
@@ -30,3 +30,7 @@ end
 ```
 
 from [Paul Bourke's website](http://paulbourke.net/papers/triangulate/)
+
+## Tests
+
+All the test cases from the test.cpp file are from [Yonaba's example of the Delaunay triangulation](https://github.com/Yonaba/delaunay/tree/master/specs)
