@@ -281,10 +281,8 @@ TEST_CASE("Delaunay", "[delaunay.h]")
 		std::vector<Vec2f> v = {p1, p2, p3, p4};
 		std::vector<Triangle> t = Delaunay::triangulate(v);
 		
-		for(auto &tri : t)
-			std::cout << tri << std::endl;
-
-//		REQUIRE(t[0].same(Triangle(p2, p1, p4)));
-//		REQUIRE(t[1].same(Triangle(p3, p2, p4)));
+		REQUIRE(t.size() == 2);
+		REQUIRE(t[0].same(Triangle(p2, p1, p4)));
+		REQUIRE(t[1].same(Triangle(p3, p2, p4)));
 	}
 }
