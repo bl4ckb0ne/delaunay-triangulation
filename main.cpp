@@ -2,7 +2,8 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
-#include <math.h> 
+#include <math.h>
+#include <stdlib.h>  
 
 #include <SFML/Graphics.hpp>
 
@@ -21,6 +22,7 @@ float RandomFloat(float a, float b) {
 
 int main()
 {
+	srand (time(NULL));
 	float numberPoints = roundf(RandomFloat(4, 40));
 
 	std::vector<Vec2f> points;
