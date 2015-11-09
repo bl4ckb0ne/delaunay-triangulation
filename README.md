@@ -31,6 +31,26 @@ end
 
 from [Paul Bourke's website](http://paulbourke.net/papers/triangulate/)
 
+## Usage
+
+To build it, just do a simple
+```sh
+make
+```
+You can change the compiler on the makefile (the CXX var)
+
+You can test it with
+```sh
+make test
+```
+It will launch automatically the test program.
+
+And finally
+```sh
+make clean
+```
+It will clear the executable and the test program. 
+
 ## Tests
 
 All the test cases from the test.cpp file are from [Yonaba's example of the Delaunay triangulation](https://github.com/Yonaba/delaunay/tree/master/specs)
