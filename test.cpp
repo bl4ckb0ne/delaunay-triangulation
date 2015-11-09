@@ -275,14 +275,14 @@ TEST_CASE("Delaunay", "[delaunay.h]")
 	SECTION("Return 2 triangles for those 4 vertices")
 	{
 		Vec2f p1(0.f, 0.f);
-		Vec2f p2(1.f, 0.f);
-		Vec2f p3(1.f, 1.f);
-		Vec2f p4(0.f, 1.f);
+		Vec2f p2(10.f, 0.f);
+		Vec2f p3(10.f, 10.f);
+		Vec2f p4(0.f, 10.f);
 		std::vector<Vec2f> v = {p1, p2, p3, p4};
 		std::vector<Triangle> t = Delaunay::triangulate(v);
 		
 		REQUIRE(t.size() == 2);
-		REQUIRE(t[0].same(Triangle(p2, p1, p4)));
-		REQUIRE(t[1].same(Triangle(p3, p2, p4)));
+		REQUIRE(t[0].same(Triangle(p2, p3, p4)));
+		REQUIRE(t[1].same(Triangle(p2, p1, p4)));
 	}
 }

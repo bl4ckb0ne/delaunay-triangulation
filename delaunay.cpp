@@ -44,18 +44,18 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	std::vector<Triangle> triangleList = {Triangle(p1, p2, p3)};
 
 	// For each point in the vertex list
-	for(auto point = vertices.begin(); point != vertices.end(); point++) 
+	for(auto point = begin(vertices); point != end(vertices); point++) 
 	{
 		// Initialize the edges buffer
 		std::vector<Edge> edgesBuff;
 		
 		// For each triangles currently in the triangle list	
-		for(auto triangle = triangleList.begin(); triangle != triangleList.end();) 
+		for(auto triangle = begin(triangleList); triangle != end(triangleList);) 
 		{
 			if(triangle->inCircumCircle(*point))
 			{
 				Edge tmp[3] = {triangle->getE1(), triangle->getE2(), triangle->getE3()};
-				edgesBuff.insert(edgesBuff.end(), tmp, tmp + 3);	
+				edgesBuff.insert(end(edgesBuff), tmp, tmp + 3);	
 				triangle = triangleList.erase(triangle);
 			}
 			else
@@ -83,9 +83,7 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 
 		// Add the triangle to the list
 		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
-		{
 			triangleList.push_back(Triangle(edge->getP1(), edge->getP2(), *point));
-		}
 		
 	
     }

@@ -1,5 +1,9 @@
 #include <iostream>
 #include <vector>
+#include <iterator>
+#include <algorithm>
+
+#include <SFML/Graphics.hpp>
 
 #include "vector2.h"
 #include "triangle.h"
@@ -9,25 +13,93 @@ typedef Vector2<float> Vec2f;
 
 int main()
 {
-	std::vector<Vec2f> points = {Vec2f(0.f, 0.f), Vec2f(1.f, 0.f), Vec2f(1.f, 1.f), Vec2f(0.f, 1.f)};
-/*	
-	points.push_back(Vector2<float>(0, 0));	
-	points.push_back(Vector2<float>(1, 3));	
-	points.push_back(Vector2<float>(2, 5));	
-	points.push_back(Vector2<float>(3, 4));	
-	points.push_back(Vector2<float>(9, 5));	
-	points.push_back(Vector2<float>(0, 2));	
-	points.push_back(Vector2<float>(1, 0));	
-	points.push_back(Vector2<float>(5, 3));	
-	points.push_back(Vector2<float>(1, 9));	
-	points.push_back(Vector2<float>(7, 3));	
-*/
+	std::vector<Vec2f> points = {Vec2f(0.f, 0.f), Vec2f(10.f, 0.f), Vec2f(10.f, 10.f), Vec2f(0.f, 10.f)};
+	
 	std::vector<Triangle> tr = Delaunay::triangulate(points);
 
 	std::cout << tr.size() << " triangles" << std::endl;
 	for(auto i = tr.begin(); i != tr.end(); i++) {
 		std::cout << *i << std::endl;
 	}
+
+	// SFML window
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
+	sf::View scale;
+	scale.reset(sf::FloatRect(0, 0, 800/6, 600/6));
+
+	// Transform each points of each vector as a rectangle
+	std::vector<sf::RectangleShape*> squares;
+	for(auto t = begin(tr); t != end(tr); t++) {
+		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(2, 2));
+		c1->setPosition(t->getP1().getX(), t->getP1().getY());
+		squares.push_back(c1);
 	
+		sf::RectangleShape *c2 = new sf::RectangleShape(sf::Vector2f(2, 2));
+ 		c2->setPosition(t->getP2().getX(), t->getP2().getY());
+		squares.push_back(c2);
+
+		sf::RectangleShape *c3 = new sf::RectangleShape(sf::Vector2f(2, 2));
+		c3->setPosition(t->getP3().getX(), t->getP3().getY());
+		squares.push_back(c3);
+	}
+
+	// Remove the doubles
+	for(auto i = begin(squares); i != end(squares); i++) {
+		for(auto j = begin(squares); j != end(squares);) {
+			if(i != j) {
+				if((*i)->getPosition().x == (*j)->getPosition().x && (*i)->getPosition().y == (*j)->getPosition().y) {
+					j = squares.erase(j);
+				}
+				else {
+					j++;
+				}
+			}
+			else {
+				j++;
+			}
+		}		
+	}
+
+	// Make the lines
+	std::vector<std::array<sf::Vertex, 2> > lines;
+	for(auto t = begin(tr); t != end(tr); t++) {
+		sf::Vector2f p1(t->getP1().getX() + 1, t->getP1().getY() + 1);	
+		sf::Vector2f p2(t->getP2().getX() + 1, t->getP2().getY() + 1);	
+		sf::Vector2f p3(t->getP3().getX() + 1, t->getP3().getY() + 1);	
+		
+		lines.push_back({sf::Vertex(p1), sf::Vertex(p2)});	
+		
+		lines.push_back({sf::Vertex(p2), sf::Vertex(p3)});	
+		
+		lines.push_back({sf::Vertex(p3), sf::Vertex(p1)});	
+	}
+ 
+	while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+                window.close();
+        }
+
+		// Comment this line for the resolution
+		window.setView(scale);
+
+        window.clear();
+
+		// Draw the squares
+		for(auto s = begin(squares); s != end(squares); s++) {
+			window.draw(**s);
+		}
+
+		// Draw the lines
+		for(auto l = begin(lines); l != end(lines); l++) {
+			window.draw((*l).data(), 2, sf::Lines);
+		}
+       	
+		window.display();
+    }
+
 	return 0;
 }
