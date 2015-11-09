@@ -2,6 +2,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <math.h> 
 
 #include <SFML/Graphics.hpp>
 
@@ -11,9 +12,21 @@
 
 typedef Vector2<float> Vec2f;
 
+float RandomFloat(float a, float b) {
+    float random = ((float) rand()) / (float) RAND_MAX;
+    float diff = b - a;
+    float r = random * diff;
+    return a + r;
+}
+
 int main()
 {
-	std::vector<Vec2f> points = {Vec2f(0.f, 0.f), Vec2f(10.f, 0.f), Vec2f(10.f, 10.f), Vec2f(0.f, 10.f)};
+	float numberPoints = roundf(RandomFloat(4, 40));
+
+	std::vector<Vec2f> points;
+	for(int i = 0; i < numberPoints; i++) {
+		points.push_back(Vec2f(RandomFloat(0, 130), RandomFloat(0, 100)));
+	}
 	
 	std::vector<Triangle> tr = Delaunay::triangulate(points);
 
