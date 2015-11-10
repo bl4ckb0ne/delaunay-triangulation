@@ -32,10 +32,12 @@ int main()
 	
 	std::vector<Triangle> tr = Delaunay::triangulate(points);
 
+	std::cout << points.size() << " points" << std::endl;
 	std::cout << tr.size() << " triangles" << std::endl;
-	for(auto i = tr.begin(); i != tr.end(); i++) {
-		std::cout << *i << std::endl;
-	}
+	//std::cout << tr.size() << " triangles" << std::endl;
+	//for(auto i = tr.begin(); i != tr.end(); i++) {
+	//	std::cout << *i << std::endl;
+	//}
 
 	// SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");

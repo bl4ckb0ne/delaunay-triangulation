@@ -258,6 +258,19 @@ TEST_CASE("Triangle", "[triangle.h]")
 		REQUIRE(t2.same(t3));
 		REQUIRE(t3.same(t1));
 	}
+
+	SECTION("Check if a triangle contains a certain vertex")
+	{
+		Vec2f p1(0.f, 0.f);
+		Vec2f p2(1.f, 0.f);
+		Vec2f p3(1.f, 1.f);
+		Vec2f p4(2.f, 2.f);
+		Triangle t1(p1, p2, p3);
+		REQUIRE(t1.containsVertex(p1));
+		REQUIRE(t1.containsVertex(p2));
+		REQUIRE(t1.containsVertex(p3));
+		REQUIRE_FALSE(t1.containsVertex(p4));
+	}
 }
 
 TEST_CASE("Delaunay", "[delaunay.h]")

@@ -8,7 +8,7 @@ SRC = $(wildcard *.cpp) $(wildcard **/*.cpp)
 SRC := $(filter-out test.cpp, $(SRC))
 OBJ = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
-CXXFLAGS = -std=c++1z -Wall -Wextra -Wfatal-errors -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS = -std=c++14 -Wall -Wextra -Wfatal-errors -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -lsfml-graphics -lsfml-window -lsfml-system
 
 all: $(EXE)
 

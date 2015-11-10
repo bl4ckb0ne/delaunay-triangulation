@@ -11,6 +11,8 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 {
 	// Init stuff
 	assert(vertices.size() > 2 && "Need more thant 3 vertices to triangulate");
+	
+	int trmax = vertices.size() * 4;
 
 	// Determinate the super triangle
 	float minX = vertices[0].getX();
@@ -73,7 +75,7 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 			auto twin = std::find(ite + 1, last, *ite);
 			if(twin != last)
 				// If one is found, push them all to the end.
-				last = std::partition(ite, last, [&ite](auto const &o){ return !(o == *ite); });
+				last = std::partition(ite, last, [&ite](Edge const &o){ return !(o == *ite); });
 			else
 				++ite;
 		}
@@ -83,15 +85,18 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 
 		// Add the triangle to the list
 		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
-			triangleList.push_back(Triangle(edge->getP1(), edge->getP2(), *point));
-		
+			triangleList.push_back(Triangle(edge->getP1(), edge->getP2(), *point));	
 	
     }
 
 	// Remove any triangles from the triangle list that use the supertriangle vertices
-	triangleList.erase(std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](auto t){
+	triangleList.erase(std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](Triangle &t){
 		return t.containsVertex(p1) || t.containsVertex(p2) || t.containsVertex(p3);
 	}), end(triangleList));
+
+	vertices.pop_back();
+	vertices.pop_back();
+	vertices.pop_back();
 
 	return triangleList;
 }
