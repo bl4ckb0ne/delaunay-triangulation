@@ -25,19 +25,14 @@ int main()
 	srand (time(NULL));
 	float numberPoints = roundf(RandomFloat(4, 40));
 
+	std::cout << "Generating " << numberPoints << " random points" << std::endl;
+
 	std::vector<Vec2f> points;
 	for(int i = 0; i < numberPoints; i++) {
 		points.push_back(Vec2f(RandomFloat(0, 130), RandomFloat(0, 100)));
 	}
 	
 	std::vector<Triangle> tr = Delaunay::triangulate(points);
-
-	std::cout << points.size() << " points" << std::endl;
-	std::cout << tr.size() << " triangles" << std::endl;
-	//std::cout << tr.size() << " triangles" << std::endl;
-	//for(auto i = tr.begin(); i != tr.end(); i++) {
-	//	std::cout << *i << std::endl;
-	//}
 
 	// SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");

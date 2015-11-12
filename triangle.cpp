@@ -19,16 +19,6 @@ Triangle::Triangle(const Edge &e1, const Edge &e2, const Edge &e3)
 	//assert(!Delaunay::isFlatAngle(_p1, _p2, _p3) && "angle(p1, p2, p3 is flat");
 }
 
-bool Triangle::isCW()
-{
-	return(Delaunay::crossProduct(_p1, _p2, _p3) < 0);
-}
-
-bool Triangle::isCCW()
-{
-	return(Delaunay::crossProduct(_p1, _p2, _p3) > 0);
-}
-
 Vec3f Triangle::getSidesLength()
 {
 	return Vec3f(_e1.length(), _e2.length(), _e3.length());
@@ -36,6 +26,9 @@ Vec3f Triangle::getSidesLength()
 
 bool Triangle::inCircumCircle(Vec2f &p)
 {
+	Vec3f v(getCircumCircle());
+	return p.isInCircle(v.getX(), v.getY(), v.getZ());
+	/*
 	float EPSILON = 0.000001f;
 	float xc, yc;
 	float y1y2 = fabs(_p1.getY() - _p2.getY());
@@ -80,6 +73,43 @@ bool Triangle::inCircumCircle(Vec2f &p)
 	dy = p.getY() - yc;
 	float drsqr = dx * dx + dy + dy;
 	return ((drsqr <= rsqr) ? true : false);
+	*/
+}
+
+Vec3f Triangle::getCircumCircle()
+{
+	Vec2f v(getCircumCenter());
+	float r = getCircumRadius();
+	return Vec3f(v.getX(), v.getY(), r);
+}
+
+Vec2f Triangle::getCircumCenter()
+{
+	float d = 	(_p1.getX() * (_p2.getY() - _p3.getY()) +
+				 _p2.getX() * (_p3.getY() - _p1.getY()) +
+				 _p3.getX() * (_p1.getY() - _p2.getY())) * 2;
+	
+	float x = (( _p1.getX() * _p1.getX() + _p1.getY() * _p1.getY()) * (_p2.getY() - _p3.getY()) +
+             ( _p2.getX() * _p2.getX() + _p2.getY() * _p2.getY()) * (_p3.getY() - _p1.getY()) +
+             ( _p3.getX() * _p3.getX() + _p3.getY() * _p3.getY()) * (_p1.getY() - _p2.getY()));
+
+	float y = (( _p1.getX() * _p1.getX() + _p1.getY() * _p1.getY()) * (_p3.getX() - _p2.getX()) +
+             ( _p2.getX() * _p2.getX() + _p2.getY() * _p2.getY()) * (_p1.getX() - _p3.getX()) +
+             ( _p3.getX() * _p3.getX() + _p3.getY() * _p3.getY()) * (_p2.getX() - _p1.getX()));
+
+	return Vec2f(x / d, y / d);
+ 
+}
+
+float Triangle::getCircumRadius()
+{
+	Vec3f v(getSidesLength());
+	float a = v.getX();
+	float b = v.getY();
+	float c = v.getZ();
+	float p = (a + b + c) * (a + b - c) * (a - b + c) * (-a + b + c);
+	
+	return (a * b * c / sqrtf(p));
 }
 
 bool Triangle::containsEdge(const Edge &e)

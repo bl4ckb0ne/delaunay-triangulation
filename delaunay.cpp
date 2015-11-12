@@ -94,9 +94,13 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 		return t.containsVertex(p1) || t.containsVertex(p2) || t.containsVertex(p3);
 	}), end(triangleList));
 
-	vertices.pop_back();
-	vertices.pop_back();
-	vertices.pop_back();
+	// Remove the supertriangle vertices from the vertex list
+	vertices.erase(std::remove_if(begin(vertices), end(vertices), [p1, p2, p3](Vec2f &v){
+		return v == p1 || v == p2 || v == p3;
+	}), end(vertices));
+
+	std::cout << "For " << vertices.size() << " points" << std::endl;
+	std::cout << "There is " << triangleList.size() << " triangles" << std::endl;
 
 	return triangleList;
 }

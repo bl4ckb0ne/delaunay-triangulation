@@ -21,10 +21,11 @@ class Triangle
 		Edge const & getE2() const { return _e2; }
 		Edge const & getE3() const { return _e3; }
 	
-		bool isCW();
-		bool isCCW();
 		Vec3f getSidesLength();		
 		bool inCircumCircle(Vec2f &p);
+		Vec3f getCircumCircle();
+		Vec2f getCircumCenter();
+		float getCircumRadius();		
 		bool containsEdge(const Edge &e);
 		bool containsVertex(const Vec2f &v);
 		bool same(const Triangle &t);

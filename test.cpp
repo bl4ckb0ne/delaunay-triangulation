@@ -208,26 +208,8 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p3(1.01f, 1.01f);
 		Triangle t(Vec2f(-1.f, 0.f), Vec2f(1.f, 0.f), Vec2f(1.f, 1.f));
 		REQUIRE(t.inCircumCircle(p1));
-		REQUIRE_FALSE(t.inCircumCircle(p2));
+		REQUIRE(t.inCircumCircle(p2));
 		REQUIRE_FALSE(t.inCircumCircle(p3));
-	}
-
-	SECTION("Can evaluate if triangle is defined clockwise")
-	{
-		Vec2f p1(0.f, 0.f);
-		Vec2f p2(-1.f, 0.f);
-		Vec2f p3(1.f, 1.f);
-		REQUIRE(Triangle(p1, p2, p3).isCW());
-		REQUIRE_FALSE(Triangle(p1, p3, p2).isCW());
-	}
-
-	SECTION("Can also evaluate if triangle is defined counter-clockwise")
-	{
-		Vec2f p1(0.f, 0.f);
-		Vec2f p2(1.f, 0.f);
-		Vec2f p3(1.f, 1.f);
-		REQUIRE(Triangle(p1, p2, p3).isCCW());
-		REQUIRE_FALSE(Triangle(p1, p3, p2).isCCW());
 	}
 
 	SECTION("Check if the triangle contains an edge")
