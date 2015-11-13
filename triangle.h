@@ -13,35 +13,30 @@ class Triangle
 	public:
 		Triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3);
 		Triangle(const Edge &e1, const Edge &e2, const Edge &e3);
-  		
-		Vec2f const & getP1() const { return _p1; } 
-		Vec2f const & getP2() const { return _p2; }
-		Vec2f const & getP3() const { return _p3; }
-		Edge const & getE1() const { return _e1; } 
-		Edge const & getE2() const { return _e2; }
-		Edge const & getE3() const { return _e3; }
 	
 		Vec3f getSidesLength();		
-		bool inCircumCircle(Vec2f &p);
-		Vec3f getCircumCircle();
-		Vec2f getCircumCenter();
-		float getCircumRadius();		
 		bool containsEdge(const Edge &e);
 		bool containsVertex(const Vec2f &v);
-		bool same(const Triangle &t);
+		bool circumCircleContains(const Vec2f &v);
 	
-	private:
-		Vec2f _p1;
-		Vec2f _p2;
-		Vec2f _p3;
-		Edge _e1;				
-		Edge _e2;
-		Edge _e3;
+		Vec2f p1;
+		Vec2f p2;
+		Vec2f p3;
+		Edge e1;				
+		Edge e2;
+		Edge e3;
 };
 
 inline std::ostream &operator << (std::ostream &str, const Triangle & t)
 {
-	return str << "Triangle:" << std::endl <<  " " << t.getP1() << std::endl << " " << t.getP2() << std::endl << " " << t.getP3() << std::endl;
+	return str << "Triangle:" << std::endl <<  "\t" << t.p1 << std::endl << "\t" << t.p2 << std::endl << "\t" << t.p3 << std::endl;
+}
+
+inline bool operator == (const Triangle &t1, const Triangle &t2)
+{
+	return	(t1.p1 == t2.p1 || t1.p1 == t2.p2 || t1.p1 == t2.p3) &&
+			(t1.p2 == t2.p1 || t1.p2 == t2.p2 || t1.p2 == t2.p3) && 
+			(t1.p3 == t2.p1 || t1.p3 == t2.p2 || t1.p3 == t2.p3);
 }
 
 

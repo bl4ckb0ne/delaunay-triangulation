@@ -7,7 +7,7 @@
 #include <cmath>
 #include <assert.h>
 
-std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
+std::vector<Triangle> Delaunay::delaunay(std::vector<Vec2f> &vertices)
 {
 	// Init stuff
 	assert(vertices.size() > 2 && "Need more thant 3 vertices to triangulate");
@@ -15,16 +15,16 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	int trmax = vertices.size() * 4;
 
 	// Determinate the super triangle
-	float minX = vertices[0].getX();
-	float minY = vertices[0].getY();
+	float minX = vertices[0].x;
+	float minY = vertices[0].y;
 	float maxX = minX;
 	float maxY = minY;
 
 	for(std::size_t i = 0; i < vertices.size(); ++i) {
-		if (vertices[i].getX() < minX) minX = vertices[i].getX();
-    	if (vertices[i].getY() < minY) minY = vertices[i].getY();
-    	if (vertices[i].getX() > maxX) maxX = vertices[i].getX();
-    	if (vertices[i].getY() > maxY) maxY = vertices[i].getY();
+		if (vertices[i].x < minX) minX = vertices[i].x;
+    	if (vertices[i].y < minY) minY = vertices[i].y;
+    	if (vertices[i].x > maxX) maxX = vertices[i].x;
+    	if (vertices[i].y > maxY) maxY = vertices[i].y;
 	}
 	
 	float dx = maxX - minX;
@@ -54,10 +54,13 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 		// For each triangles currently in the triangle list	
 		for(auto triangle = begin(triangleList); triangle != end(triangleList);) 
 		{
-			if(triangle->inCircumCircle(*point))
+			if(triangle->circumCircleContains(*point))
 			{
-				Edge tmp[3] = {triangle->getE1(), triangle->getE2(), triangle->getE3()};
-				edgesBuff.insert(end(edgesBuff), tmp, tmp + 3);	
+				Edge tmp[3] = {triangle->e1, triangle->e2, triangle->e3};
+				edgesBuff.push_back(triangle->e1);
+				edgesBuff.push_back(triangle->e2);
+				edgesBuff.push_back(triangle->e3);
+				//edgesBuff.insert(end(edgesBuff), tmp, tmp + 3);	
 				triangle = triangleList.erase(triangle);
 			}
 			else
@@ -85,7 +88,7 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 
 		// Add the triangle to the list
 		for(auto edge = begin(edgesBuff); edge != end(edgesBuff); edge++)
-			triangleList.push_back(Triangle(edge->getP1(), edge->getP2(), *point));	
+			triangleList.push_back(Triangle(edge->p1, edge->p2, *point));	
 	
     }
 
@@ -105,15 +108,96 @@ std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 	return triangleList;
 }
 
+std::vector<Triangle> Delaunay::bowyerWatson(std::vector<Vec2f> &vertices)
+{
+	// Determinate the super triangle
+	float minX = vertices[0].x;
+	float minY = vertices[0].y;
+	float maxX = minX;
+	float maxY = minY;
+
+	for(std::size_t i = 0; i < vertices.size(); ++i) 
+	{
+		if (vertices[i].x < minX) minX = vertices[i].x;
+    	if (vertices[i].y < minY) minY = vertices[i].y;
+    	if (vertices[i].x > maxX) maxX = vertices[i].x;
+    	if (vertices[i].y > maxY) maxY = vertices[i].y;
+	}
+	
+	float dx = maxX - minX;
+	float dy = maxY - minY;
+	float deltaMax = std::max(dx, dy);
+	float midx = (minX + maxX) / 2.f;
+	float midy = (minY + maxY) / 2.f;
+
+	Vec2f p1(midx - 20 * deltaMax, midy - deltaMax);
+	Vec2f p2(midx, midy + 20 * deltaMax);
+	Vec2f p3(midx + 20 * deltaMax, midy - deltaMax);	
+	
+	// Create a list of triangles, and add the supertriangle in it
+	std::vector<Triangle> triangleList = {Triangle(p1, p2, p3)};
+
+	for(auto p = begin(vertices); p != end(vertices); p++)
+	{
+		std::vector<Triangle> badTriangle;
+	
+		for(auto t = begin(triangleList); t != end(triangleList); t++)
+		{
+			if(t->circumCircleContains(*p))
+				badTriangle.push_back(*t);
+		}
+
+		std::vector<Edge> polygon;
+		
+		for(auto t = begin(badTriangle); t != end(badTriangle); t++)
+		{
+			for(auto bt = begin(badTriangle); bt != end(badTriangle); bt++)
+			{
+				if(t == bt)
+					continue;
+
+				if(t->containsEdge(bt->e1)) 
+					polygon.push_back(bt->e1);	
+				else if(t->containsEdge(bt->e2))
+					polygon.push_back(bt->e2);
+				else if(t->containsEdge(bt->e3))				
+					polygon.push_back(bt->e3);
+			}
+		}
+
+		for(auto bt = begin(badTriangle); bt != end(badTriangle); bt++)
+		{
+			triangleList.erase(std::remove_if(begin(triangleList), end(triangleList), [bt](Triangle t) {
+				return t == (*bt);
+			}), end(triangleList));
+		}
+
+		for(auto e = begin(polygon); e != end(polygon); e++)
+		{
+			triangleList.push_back(Triangle(*e, Edge(e->p1, *p), Edge(e->p2, *p)));
+		}
+	}
+	
+	// Remove any triangles from the triangle list that use the supertriangle vertices
+	triangleList.erase(std::remove_if(begin(triangleList), end(triangleList), [p1, p2, p3](Triangle &t){
+		return t.containsVertex(p1) || t.containsVertex(p2) || t.containsVertex(p3);
+	}), end(triangleList));
+
+	std::cout << "For " << vertices.size() << " points" << std::endl;
+	std::cout << "There is " << triangleList.size() << " triangles" << std::endl;
+
+	return triangleList;
+}
+
 /*
  *	Cross product (p1-p2, p2-p3)
  */
 float Delaunay::crossProduct(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3)
 {
-	float x1 = p2.getX() - p1.getX();
-	float x2 = p3.getX() - p2.getX();
-	float y1 = p2.getY() - p1.getY();
-	float y2 = p3.getY() - p2.getY();
+	float x1 = p2.x - p1.x;
+	float x2 = p3.x - p2.x;
+	float y1 = p2.y - p1.y;
+	float y2 = p3.y - p2.y;
 	return x1 * y2 - y1 * x2;
 }
 
