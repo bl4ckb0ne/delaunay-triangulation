@@ -17,46 +17,46 @@ TEST_CASE("Vector2", "[vector2.h]")
 	SECTION("Creating a vector2<float> with no parameters")
 	{
 		Vec2f p;
-		REQUIRE(p.getX() == 0.f);
-		REQUIRE(p.getY() == 0.f);
+		REQUIRE(p.x == 0.f);
+		REQUIRE(p.y == 0.f);
 	}
 
 	SECTION("Creating a vector2<float> with (0, 0)")
 	{
 		Vec2f p(0.f, 0.f);
-		REQUIRE(p.getX() == 0.f);
-		REQUIRE(p.getY() == 0.f);
+		REQUIRE(p.x == 0.f);
+		REQUIRE(p.y == 0.f);
 	}
 
 	SECTION("Creating a vector2<float> with (10, 10)")
 	{
 		Vec2f p(10.f, 10.f);
-		REQUIRE(p.getX() == 10.f);
-		REQUIRE(p.getY() == 10.f);	
+		REQUIRE(p.x == 10.f);
+		REQUIRE(p.y == 10.f);	
 	}	
 	
 	SECTION("Creating a vector2<float> by copy")
 	{
 		Vec2f p1(20.f, 50.f);
 		Vec2f p2(p1);
-		REQUIRE(p2.getX() == p1.getX());
-		REQUIRE(p2.getY() == p1.getY());	
+		REQUIRE(p2.x == p1.x);
+		REQUIRE(p2.y == p1.y);	
 	}
 
 	SECTION("Getters")	
 	{
 		Vec2f p(10.f, 10.f);
-		REQUIRE(p.getX() == 10.f);
-		REQUIRE(p.getY() == 10.f);
+		REQUIRE(p.x == 10.f);
+		REQUIRE(p.y == 10.f);
 	}
 
 	SECTION("Setters")
 	{
 		Vec2f p(0.f, 0.);
-		p.setX(30.f);
-		p.setY(40.f);
-		REQUIRE(p.getX() == 30.f);
-		REQUIRE(p.getY() == 40.f);
+		p.x = 30.f;
+		p.y = 40.f;
+		REQUIRE(p.x == 30.f);
+		REQUIRE(p.y == 40.f);
 	}
 
 	SECTION("Dist")
@@ -77,15 +77,6 @@ TEST_CASE("Vector2", "[vector2.h]")
 		REQUIRE(p.dist2(p2) == 2.f);
 	}
 
-	SECTION("isInCircle")
-	{
-		Vec2f p(0.f, 0.f);
-		REQUIRE(p.isInCircle(0, 0, 1.f));
-		REQUIRE(p.isInCircle(1, 1, 2.f));
-		REQUIRE_FALSE(p.isInCircle(1, 1, 1.f));
-		REQUIRE_FALSE(p.isInCircle(1, 1, 0.99f));
-	}
-
 	SECTION("==")
 	{
 		Vec2f p(0.f, 0.f);
@@ -103,8 +94,8 @@ TEST_CASE("Edge", "[edge.h]")
 		Vec2f p(0.f, 0.f);
 		Vec2f p1(1.f, 1.f);
 		Edge e(p, p1);
-		REQUIRE(e.getP1() == p);
-		REQUIRE(e.getP2() == p1);
+		REQUIRE(e.p1 == p);
+		REQUIRE(e.p2 == p1);
 	}
 	
 	SECTION("Check if 2 edges are the same")
@@ -140,8 +131,8 @@ TEST_CASE("Edge", "[edge.h]")
 		Vec2f p(0.f, 0.f);
 		Vec2f p1(2.f, 2.f);
 		Edge e(p, p1);
-		REQUIRE(e.getMidPoint().getX() == 1.f);
-		REQUIRE(e.getMidPoint().getY() == 1.f);
+		REQUIRE(e.getMidPoint().x == 1.f);
+		REQUIRE(e.getMidPoint().y == 1.f);
 	}
 	
 	SECTION("length")
@@ -161,9 +152,9 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p2(2.f, 0.f);
 		Vec2f p3(1.f, 1.f);
 		Triangle t1(p1, p2, p3);
-		REQUIRE(t1.getP1() == p1);
-		REQUIRE(t1.getP2() == p2);
-		REQUIRE(t1.getP3() == p3);
+		REQUIRE(t1.p1 == p1);
+		REQUIRE(t1.p2 == p2);
+		REQUIRE(t1.p3 == p3);
 	}
 
 	SECTION("Check edges")
@@ -172,9 +163,9 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p2(2.f, 0.f);
 		Vec2f p3(1.f, 1.f);
 		Triangle t1(p1, p2, p3);
-		REQUIRE(t1.getE1() == Edge(p1, p2));
-		REQUIRE(t1.getE2() == Edge(p2, p3));
-		REQUIRE(t1.getE3() == Edge(p3, p1));
+		REQUIRE(t1.e1 == Edge(p1, p2));
+		REQUIRE(t1.e2 == Edge(p2, p3));
+		REQUIRE(t1.e3 == Edge(p3, p1));
 	}
 		
 	SECTION("A triangle cannot a flat angle")
@@ -196,9 +187,9 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p3(1.f, 1.f);
     	Triangle t(p1, p2, p3);
     	Vector3<float>v(t.getSidesLength());
-		REQUIRE(v.getX() == 2.f);
-    	REQUIRE(v.getY() == sqrtf(2));
-    	REQUIRE(v.getZ() == sqrtf(2));
+		REQUIRE(v.x == 2.f);
+    	REQUIRE(v.y == sqrtf(2));
+    	REQUIRE(v.z == sqrtf(2));
 	}
 
 	SECTION("Can test if a given point lies in a triangle's circumcircle")
@@ -207,9 +198,9 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Vec2f p2(1.f, 1.f);
 		Vec2f p3(1.01f, 1.01f);
 		Triangle t(Vec2f(-1.f, 0.f), Vec2f(1.f, 0.f), Vec2f(1.f, 1.f));
-		REQUIRE(t.inCircumCircle(p1));
-		REQUIRE(t.inCircumCircle(p2));
-		REQUIRE_FALSE(t.inCircumCircle(p3));
+		REQUIRE(t.circumCircleContains(p1));
+		REQUIRE(t.circumCircleContains(p2));
+		REQUIRE_FALSE(t.circumCircleContains(p3));
 	}
 
 	SECTION("Check if the triangle contains an edge")
@@ -236,9 +227,9 @@ TEST_CASE("Triangle", "[triangle.h]")
 		Triangle t1(p1, p2, p3);
 		Triangle t2(p2, p3, p1);
 		Triangle t3(p3, p2, p1);
-		REQUIRE(t1.same(t2));
-		REQUIRE(t2.same(t3));
-		REQUIRE(t3.same(t1));
+		REQUIRE(t1 == t2);
+		REQUIRE(t2 == t3);
+		REQUIRE(t3 == t1);
 	}
 
 	SECTION("Check if a triangle contains a certain vertex")
@@ -263,8 +254,8 @@ TEST_CASE("Delaunay", "[delaunay.h]")
 		Vec2f p2(2.f, 0.f);
 		Vec2f p3(1.f, 1.f);
 		std::vector<Vec2f> v = {p1, p2, p3};
-		std::vector<Triangle> t = Delaunay::triangulate(v);
-		REQUIRE(t[0].same(Triangle(p1, p2, p3)));
+		std::vector<Triangle> t = Delaunay::delaunay(v);
+		REQUIRE(t[0] == Triangle(p1, p2, p3));
 	}
 
 	SECTION("Return 2 triangles for those 4 vertices")
@@ -274,10 +265,10 @@ TEST_CASE("Delaunay", "[delaunay.h]")
 		Vec2f p3(10.f, 10.f);
 		Vec2f p4(0.f, 10.f);
 		std::vector<Vec2f> v = {p1, p2, p3, p4};
-		std::vector<Triangle> t = Delaunay::triangulate(v);
+		std::vector<Triangle> t = Delaunay::delaunay(v);
 		
 		REQUIRE(t.size() == 2);
-		REQUIRE(t[0].same(Triangle(p2, p3, p4)));
-		REQUIRE(t[1].same(Triangle(p2, p1, p4)));
+		REQUIRE(t[0] == Triangle(p2, p3, p4));
+		REQUIRE(t[1] == Triangle(p2, p1, p4));
 	}
 }

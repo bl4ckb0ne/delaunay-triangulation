@@ -17,11 +17,11 @@ class Vector3
 			z = 0;
 		}
 
-		Vector3(T x, T y, T z) 
+		Vector3(T _x, T _y, T _z) 
 		{
-			x = x;
-			y = y;
-			z = z;	
+			x = _x;
+			y = _y;
+			z = _z;	
 		}
 
 		Vector3(const Vector3 &v)

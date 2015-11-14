@@ -18,10 +18,10 @@ class Vector2
 			y = 0;
 		}
 
-		Vector2(T x, T y) 
+		Vector2(T _x, T _y) 
 		{
-			x = x;
-			y = y;
+			x = _x;
+			y = _y;
 		}
 
 		Vector2(const Vector2 &v)

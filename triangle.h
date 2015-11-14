@@ -11,8 +11,8 @@ typedef Vector3<float> Vec3f;
 class Triangle
 {
 	public:
-		Triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3);
-		Triangle(const Edge &e1, const Edge &e2, const Edge &e3);
+		Triangle(const Vec2f &_p1, const Vec2f &_p2, const Vec2f &_p3);
+		Triangle(const Edge &_e1, const Edge &_e2, const Edge &_e3);
 	
 		Vec3f getSidesLength();		
 		bool containsEdge(const Edge &e);

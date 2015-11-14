@@ -5,16 +5,16 @@
 
 #include "delaunay.h"
 
-Triangle::Triangle(const Vec2f &p1, const Vec2f &p2, const Vec2f &p3)
-	:	p1(p1), p2(p2), p3(p3),
-		e1(p1, p2), e2(p2, p3), e3(p3, p1)
+Triangle::Triangle(const Vec2f &_p1, const Vec2f &_p2, const Vec2f &_p3)
+	:	p1(_p1), p2(_p2), p3(_p3),
+		e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1)
 {
 	//assert(!Delaunay::isFlatAngle(p1, p2, p3) && "angle(p1, p2, p3 is flat");
 }
 
-Triangle::Triangle(const Edge &e1, const Edge &e2, const Edge &e3)
-	:	p1(e1.p1), p2(e2.p1), p3(e3.p1),
-		e1(e1), e2(e2), e3(e3)
+Triangle::Triangle(const Edge &_e1, const Edge &_e2, const Edge &_e3)
+	:	p1(_e1.p1), p2(_e2.p1), p3(_e3.p1),
+		e1(_e1), e2(_e2), e3(_e3)
 {
 	//assert(!Delaunay::isFlatAngle(p1, p2, p3) && "angle(p1, p2, p3 is flat");
 }
