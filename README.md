@@ -31,34 +31,33 @@ end
   
 ## Sample  
   
-![alt text](https://github.com/Bl4ckb0ne/delaunay-triangulation/blob/pointers/sample.png "Is you can't see this, there's normaly an image here")  
+![alt text](https://github.com/Bl4ckb0ne/delaunay-triangulation/blob/pointers/sample.png "Sample image (if you see this, then the image can't load or hasn't loaded yet)")  
   
 
 From the [Wikipedia page of the algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)  
   
 ## Requirement  
   
-You'll need [SFML 2](http://www.sfml-dev.org/download/sfml/2.3.2/) at least to run the example, and C++11 to compiles it.
+You will need [SFML 2+](http://www.sfml-dev.org/download/sfml/2.3.2/) to run the example, and C++11 to compile it.
 
 ## Usage
 
-To build it, just do a simple
+To build it, you can type in :
 ```sh
 make
 ```
-You can change the compiler on the makefile (the CXX var)
+You may change the compiler on the makefile (using the CXX var)
 ```sh
 make CXX=g++ 		# to use the GCC compiler
 make CXX=clang++ 	# default compiler
 ```
 
-The executable's name is ``` delaunay ```, with no arguments
+The executable name is ``` delaunay ```, without arguments
 ```sh
 ./delaunay
 ```
 
-And finally
+You also can clear the executable and rebuild.
 ```sh
 make clean
 ```
-To clear the executable and the build dear.
