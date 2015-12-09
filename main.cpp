@@ -29,32 +29,40 @@ int main()
 
 	std::vector<Vec2f> points;
 	for(int i = 0; i < numberPoints; i++) {
-		points.push_back(Vec2f(RandomFloat(0, 130), RandomFloat(0, 100)));
+		points.push_back(Vec2f(RandomFloat(0, 800), RandomFloat(0, 600)));
 	}
-	
-	//std::vector<Triangle> tr = Delaunay::bowyerWatson(points);
-	std::vector<Triangle> tr = Delaunay::delaunay(points);
+		
+	std::cout << "\n ========== " << std::endl;
+
+	Delaunay triangulation;
+	std::vector<Triangle> tr = triangulation.triangulate(points);
 
 	// SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
-	sf::View scale;
-	scale.reset(sf::FloatRect(0, 0, 800/6, 600/6));
 
 	// Transform each points of each vector as a rectangle
 	std::vector<sf::RectangleShape*> squares;
+
+	for(auto p = begin(points); p != end(points); p++) {
+		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
+		c1->setPosition(p->x, p->y);
+		squares.push_back(c1);
+	}
+	/*
 	for(auto t = begin(tr); t != end(tr); t++) {
-		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(2, 2));
+		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(5, 5));
 		c1->setPosition(t->p1.x, t->p1.y);
 		squares.push_back(c1);
 	
-		sf::RectangleShape *c2 = new sf::RectangleShape(sf::Vector2f(2, 2));
+		sf::RectangleShape *c2 = new sf::RectangleShape(sf::Vector2f(5, 5));
  		c2->setPosition(t->p2.x, t->p2.y);
 		squares.push_back(c2);
 
-		sf::RectangleShape *c3 = new sf::RectangleShape(sf::Vector2f(2, 2));
+		sf::RectangleShape *c3 = new sf::RectangleShape(sf::Vector2f(5, 5));
 		c3->setPosition(t->p3.x, t->p3.y);
 		squares.push_back(c3);
 	}
+	*/
 
 	// Remove the doubles
 	/*
@@ -77,9 +85,9 @@ int main()
 	// Make the lines
 	std::vector<std::array<sf::Vertex, 2> > lines;
 	for(auto t = begin(tr); t != end(tr); t++) {
-		sf::Vector2f p1(t->p1.x + 1, t->p1.y + 1);	
-		sf::Vector2f p2(t->p2.x + 1, t->p2.y + 1);	
-		sf::Vector2f p3(t->p3.x + 1, t->p3.y + 1);	
+		sf::Vector2f p1(t->p1.x + 2, t->p1.y + 2);	
+		sf::Vector2f p2(t->p2.x + 2, t->p2.y + 2);	
+		sf::Vector2f p3(t->p3.x + 2, t->p3.y + 2);	
 		
 		lines.push_back({sf::Vertex(p1), sf::Vertex(p2)});	
 		
@@ -96,9 +104,6 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-
-		// Comment this line for the resolution
-		window.setView(scale);
 
         window.clear();
 

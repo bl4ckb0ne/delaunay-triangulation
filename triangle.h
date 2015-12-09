@@ -12,10 +12,7 @@ class Triangle
 {
 	public:
 		Triangle(const Vec2f &_p1, const Vec2f &_p2, const Vec2f &_p3);
-		Triangle(const Edge &_e1, const Edge &_e2, const Edge &_e3);
 	
-		Vec3f getSidesLength();		
-		bool containsEdge(const Edge &e);
 		bool containsVertex(const Vec2f &v);
 		bool circumCircleContains(const Vec2f &v);
 	
@@ -29,7 +26,8 @@ class Triangle
 
 inline std::ostream &operator << (std::ostream &str, const Triangle & t)
 {
-	return str << "Triangle:" << std::endl <<  "\t" << t.p1 << std::endl << "\t" << t.p2 << std::endl << "\t" << t.p3 << std::endl;
+	return str << "Triangle:" << std::endl << "\t" << t.p1 << std::endl << "\t" << t.p2 << std::endl << "\t" << t.p3 << std::endl << "\t" << t.e1 << std::endl << "\t" << t.e2 << std::endl << "\t" << t.e3 << std::endl;
+		
 }
 
 inline bool operator == (const Triangle &t1, const Triangle &t2)

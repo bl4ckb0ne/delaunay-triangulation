@@ -12,23 +12,6 @@ Triangle::Triangle(const Vec2f &_p1, const Vec2f &_p2, const Vec2f &_p3)
 	//assert(!Delaunay::isFlatAngle(p1, p2, p3) && "angle(p1, p2, p3 is flat");
 }
 
-Triangle::Triangle(const Edge &_e1, const Edge &_e2, const Edge &_e3)
-	:	p1(_e1.p1), p2(_e2.p1), p3(_e3.p1),
-		e1(_e1), e2(_e2), e3(_e3)
-{
-	//assert(!Delaunay::isFlatAngle(p1, p2, p3) && "angle(p1, p2, p3 is flat");
-}
-
-Vec3f Triangle::getSidesLength()
-{
-	return Vec3f(e1.length(), e2.length(), e3.length());
-}
-
-bool Triangle::containsEdge(const Edge &e)
-{
-	return e1 == e || e2 == e || e3 == e;
-}
-
 bool Triangle::containsVertex(const Vec2f &v)
 {
 	return p1 == v || p2 == v || p3 == v; 
