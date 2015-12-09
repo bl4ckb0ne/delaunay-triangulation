@@ -28,8 +28,17 @@ output : triangle list
    remove the supertriangle vertices from the vertex list
 end
 ```
+  
+## Sample  
+  
+![alt text](https://github.com/Bl4ckb0ne/delaunay-triangulation/blob/pointers/sample.png "Is you can't see this, there's normaly an image here")  
+  
 
-from [Paul Bourke's website](http://paulbourke.net/papers/triangulate/)
+From the [Wikipedia page of the algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)  
+  
+## Requirement  
+  
+You'll need [SFML 2](http://www.sfml-dev.org/download/sfml/2.3.2/) at least to run the example, and C++11 to compiles it.
 
 ## Usage
 
@@ -38,19 +47,18 @@ To build it, just do a simple
 make
 ```
 You can change the compiler on the makefile (the CXX var)
-
-You can test it with
 ```sh
-make test
+make CXX=g++ 		# to use the GCC compiler
+make CXX=clang++ 	# default compiler
 ```
-It will launch automatically the test program.
+
+The executable's name is ``` delaunay ```, with no arguments
+```sh
+./delaunay
+```
 
 And finally
 ```sh
 make clean
 ```
-It will clear the executable and the test program. 
-
-## Tests
-
-All the test cases from the test.cpp file are from [Yonaba's example of the Delaunay triangulation](https://github.com/Yonaba/delaunay/tree/master/specs)
+To clear the executable and the build dear.

@@ -2,11 +2,9 @@
 #define H_TRIANGLE
 
 #include "vector2.h"
-#include "vector3.h"
 #include "edge.h"
 
 typedef Vector2<float> Vec2f;
-typedef Vector3<float> Vec3f;
 
 class Triangle
 {

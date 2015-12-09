@@ -8,9 +8,7 @@
 Triangle::Triangle(const Vec2f &_p1, const Vec2f &_p2, const Vec2f &_p3)
 	:	p1(_p1), p2(_p2), p3(_p3),
 		e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1)
-{
-	//assert(!Delaunay::isFlatAngle(p1, p2, p3) && "angle(p1, p2, p3 is flat");
-}
+{}
 
 bool Triangle::containsVertex(const Vec2f &v)
 {
