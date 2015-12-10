@@ -1,5 +1,4 @@
-CXX = clang++
-#CXX = g++
+CXX = g++
 
 EXE = delaunay
 BUILD_DIR = build
