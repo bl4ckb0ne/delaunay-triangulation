@@ -107,7 +107,11 @@ std::vector<Triangle*> Delaunay::triangulate(std::vector<Vec2f> &vertices)
 
 	// For each Triangle t in _triangles, delete t if in contains any points from the supertriangle
 	_triangles.erase(std::remove_if(begin(_triangles), end(_triangles), [p1, p2, p3](Triangle *t){
-		return t->containsVertex(p1) || t->containsVertex(p2) || t->containsVertex(p3);
+		if(t->containsVertex(p1) || t->containsVertex(p2) || t->containsVertex(p3)){
+			delete t;
+			return true;
+		}
+		return false;
 	}), end(_triangles));
 
 	//

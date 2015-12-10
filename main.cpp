@@ -23,7 +23,8 @@ float RandomFloat(float a, float b) {
 int main()
 {
 	srand (time(NULL));
-	float numberPoints = roundf(RandomFloat(4, 40));
+	//float numberPoints = roundf(RandomFloat(4, 40));
+	float numberPoints = 4;
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
@@ -36,6 +37,21 @@ int main()
 	std::vector<Triangle*> triangles = triangulation.triangulate(points);
 	std::cout << triangles.size() << " triangles calculated" << std::endl;
 	std::vector<Edge*> edges = triangulation.getEdges();
+
+	std::cout << "\nPoints : " << points.size() << std::endl;
+	for(auto &p : points)
+		std::cout << p << std::endl;
+
+	std::cout << "\nTriangles : " << triangles.size() << std::endl;
+	for(auto &t : triangles)
+		std::cout << *t << std::endl;
+
+	std::cout << "\nEdges : " << edges.size() << std::endl;
+	for(auto &e : edges)
+		std::cout << *e << std::endl;
+
+	return 0;
+	/*	
 
 	// SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
@@ -52,10 +68,10 @@ int main()
 	// Make the lines
 	std::vector<std::array<sf::Vertex, 2> > lines;
 	for(auto e = begin(edges); e != end(edges); e++) {
-		sf::Vector2f p1((*e)->p1.x + 2, (*e)->p1.y + 2);	
-		sf::Vector2f p2((*e)->p2.x + 2, (*e)->p2.y + 2);	
-		
-		lines.push_back({{sf::Vertex(p1), sf::Vertex(p2)}});	
+		lines.push_back({{
+			sf::Vertex(sf::Vector2f((*e)->p1.x + 2, (*e)->p1.y + 2)),	
+			sf::Vertex(sf::Vector2f((*e)->p2.x + 2, (*e)->p2.y + 2))	
+		}});
 	}
  
 	while (window.isOpen())
@@ -83,4 +99,6 @@ int main()
     }
 
 	return 0;
+
+	*/
 }
