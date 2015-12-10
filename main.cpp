@@ -24,7 +24,7 @@ int main()
 {
 	srand (time(NULL));
 	//float numberPoints = roundf(RandomFloat(4, 40));
-	float numberPoints = 4;
+	float numberPoints = 10;
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
@@ -34,10 +34,12 @@ int main()
 	}
 
 	Delaunay triangulation;
-	std::vector<Triangle*> triangles = triangulation.triangulate(points);
-	std::cout << triangles.size() << " triangles calculated" << std::endl;
-	std::vector<Edge*> edges = triangulation.getEdges();
+	std::vector<std::shared_ptr<Triangle> > triangles = triangulation.triangulate(points);
+	std::cout << triangles.size() << " triangles generated\n";
+	std::vector<std::shared_ptr<Edge> > edges = triangulation.getEdges();
 
+	std::cout << " ========= ";
+	
 	std::cout << "\nPoints : " << points.size() << std::endl;
 	for(auto &p : points)
 		std::cout << p << std::endl;
@@ -49,10 +51,7 @@ int main()
 	std::cout << "\nEdges : " << edges.size() << std::endl;
 	for(auto &e : edges)
 		std::cout << *e << std::endl;
-
-	return 0;
-	/*	
-
+	
 	// SFML window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
 
@@ -99,6 +98,4 @@ int main()
     }
 
 	return 0;
-
-	*/
 }

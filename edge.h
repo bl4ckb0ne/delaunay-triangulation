@@ -9,6 +9,7 @@ class Edge
 {
 	public:
 		Edge(const Vec2f &p1, const Vec2f &p2) : p1(p1), p2(p2) {};
+		Edge(const Edge &e) : p1(e.p1), p2(e.p2) {};
 
 		Vec2f p1;
 		Vec2f p2;
