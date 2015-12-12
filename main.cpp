@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <math.h>
 #include <stdlib.h>  
+#include <array>
 
 #include <SFML/Graphics.hpp>
 
