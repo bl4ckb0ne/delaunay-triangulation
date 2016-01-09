@@ -53,7 +53,7 @@ int main()
 		std::cout << e << std::endl;
 			
 	// SFML window
-    sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
+    	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
 
 	// Transform each points of each vector as a rectangle
 	std::vector<sf::RectangleShape*> squares;
@@ -74,28 +74,28 @@ int main()
 	}
  
 	while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-
+	{
+	        sf::Event event;
+	        while (window.pollEvent(event))
+	        {
+	            if (event.type == sf::Event::Closed)
+	                window.close();
+	        }
+	
+	        window.clear();
+	
 		// Draw the squares
 		for(auto s = begin(squares); s != end(squares); s++) {
 			window.draw(**s);
 		}
-
+	
 		// Draw the lines
 		for(auto l = begin(lines); l != end(lines); l++) {
 			window.draw((*l).data(), 2, sf::Lines);
 		}
-       	
+	       	
 		window.display();
-    }
+	}
 	
 	return 0;
 }
