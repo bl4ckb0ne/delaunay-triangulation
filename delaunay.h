@@ -5,20 +5,15 @@
 #include "triangle.h"
 
 #include <vector>
-#include <memory>
-#include <iostream>
-#include <algorithm>
-#include <iterator>
-#include <cmath>
 
 typedef Vector2<float> Vec2f;
 
 class Delaunay
 {
 	public:
-		std::vector<Triangle> triangulate(std::vector<Vec2f> &vertices);
-		std::vector<Triangle> getTriangles() { return _triangles; };
-		std::vector<Edge> getEdges() { return _edges; };
+		const std::vector<Triangle>& triangulate(std::vector<Vec2f> &vertices);
+		const std::vector<Triangle>& getTriangles() const { return _triangles; };
+		const std::vector<Edge>& getEdges() const { return _edges; };
 
 	private:
 		std::vector<Triangle> _triangles;

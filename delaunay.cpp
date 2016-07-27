@@ -1,6 +1,7 @@
 #include "delaunay.h"
+#include <algorithm>
 
-std::vector<Triangle> Delaunay::triangulate(std::vector<Vec2f> &vertices)
+const std::vector<Triangle>& Delaunay::triangulate(std::vector<Vec2f> &vertices)
 {
 	// Determinate the super triangle
 	float minX = vertices[0].x;
