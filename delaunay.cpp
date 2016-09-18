@@ -3,6 +3,9 @@
 
 const std::vector<Triangle>& Delaunay::triangulate(std::vector<Vec2f> &vertices)
 {
+	// Store the vertices localy
+	_vertices = vertices;
+
 	// Determinate the super triangle
 	float minX = vertices[0].x;
 	float minY = vertices[0].y;
