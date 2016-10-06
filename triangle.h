@@ -4,8 +4,6 @@
 #include "vector2.h"
 #include "edge.h"
 
-typedef Vector2<float> Vec2f;
-
 class Triangle
 {
 	public:

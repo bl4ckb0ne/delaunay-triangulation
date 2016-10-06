@@ -6,8 +6,6 @@
 
 #include <vector>
 
-typedef Vector2<float> Vec2f;
-
 class Delaunay
 {
 	public:
