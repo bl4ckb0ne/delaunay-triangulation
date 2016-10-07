@@ -12,8 +12,6 @@
 #include "triangle.h"
 #include "delaunay.h"
 
-typedef Vector2<float> Vec2f;
-
 float RandomFloat(float a, float b) {
     float random = ((float) rand()) / (float) RAND_MAX;
     float diff = b - a;

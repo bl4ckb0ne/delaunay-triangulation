@@ -11,22 +11,22 @@ CXXFLAGS = -std=c++11 -Wall -Wextra -Wfatal-errors -pedantic -w -Winline -fno-rt
 all: $(EXE)
 
 $(EXE): dir main.o delaunay.o triangle.o edge.o vector2.o
-	$(CXX) $(CXXFLAGS) -o $(EXE) $(OBJ)
+	$(CXX) -o $(EXE) $(OBJ) $(CXXFLAGS)
 
 main.o:main.cpp
-	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
+	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
 
 delaunay.o: delaunay.cpp	
-	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
+	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
 
 triangle.o: triangle.cpp
-	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
+	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
 
 edge.o: edge.h 
-	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
+	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
 
 vector2.o: vector2.h
-	$(CXX) $(CXXFLAGS) -o $(BUILD_DIR)/$@ -c $<
+	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
 
 dir:
 	mkdir -p $(BUILD_DIR)
