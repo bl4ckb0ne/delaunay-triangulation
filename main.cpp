@@ -26,15 +26,15 @@ int main()
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vec2f> points;
+	std::vector<Vector2<float>> points;
 	for(int i = 0; i < numberPoints; i++) {
-		points.push_back(Vec2f(RandomFloat(0, 800), RandomFloat(0, 600)));
+		points.push_back(Vector2<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
 	}
 
-	Delaunay triangulation;
-	std::vector<Triangle> triangles = triangulation.triangulate(points);
+	Delaunay<float> triangulation;
+	std::vector<Triangle<float>> triangles = triangulation.triangulate(points);
 	std::cout << triangles.size() << " triangles generated\n";
-	std::vector<Edge> edges = triangulation.getEdges();
+	std::vector<Edge<float>> edges = triangulation.getEdges();
 	
 	std::cout << " ========= ";
 	
