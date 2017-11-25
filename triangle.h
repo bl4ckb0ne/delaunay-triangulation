@@ -16,7 +16,7 @@ class Triangle
 		
 		Triangle(const VertexType &_p1, const VertexType &_p2, const VertexType &_p3)
 		:	p1(_p1), p2(_p2), p3(_p3),
-			e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1)
+			e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1), isBad(false)
 		{}
 	
 		bool containsVertex(const VertexType &v)
@@ -44,6 +44,7 @@ class Triangle
 		EdgeType e1;				
 		EdgeType e2;
 		EdgeType e3;
+		bool isBad;
 };
 
 template <class T>
