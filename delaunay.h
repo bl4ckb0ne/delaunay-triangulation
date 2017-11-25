@@ -55,7 +55,6 @@ class Delaunay
 				//std::cout << "Traitement du point " << *p << std::endl;
 				//std::cout << "_triangles contains " << _triangles.size() << " elements" << std::endl;	
 
-				std::vector<TriangleType> badTriangles;
 				std::vector<EdgeType> polygon;
 
 				for(auto t = begin(_triangles); t != end(_triangles); t++)
@@ -65,7 +64,7 @@ class Delaunay
 					if(t->circumCircleContains(*p))
 					{
 						//std::cout << "Pushing bad triangle " << *t << std::endl;
-						badTriangles.push_back(*t);
+						t->isBad = true;
 						polygon.push_back(t->e1);	
 						polygon.push_back(t->e2);	
 						polygon.push_back(t->e3);	
@@ -76,19 +75,10 @@ class Delaunay
 					}
 				}
 
-				_triangles.erase(std::remove_if(begin(_triangles), end(_triangles), [badTriangles](TriangleType &t){
-					for(auto bt = begin(badTriangles); bt != end(badTriangles); bt++)
-					{	
-						if(*bt == t)
-						{
-							//std::cout << "Removing bad triangle " << std::endl << *bt << " from _triangles" << std::endl;
-							return true;		
-						}
-					}
-					return false;
+				_triangles.erase(std::remove_if(begin(_triangles), end(_triangles), [](TriangleType &t){
+					return t.isBad;
 				}), end(_triangles));
 
-				std::vector<EdgeType> badEdges;
 				for(auto e1 = begin(polygon); e1 != end(polygon); e1++)
 				{
 					for(auto e2 = begin(polygon); e2 != end(polygon); e2++)
@@ -98,19 +88,14 @@ class Delaunay
 						
 						if(*e1 == *e2)
 						{
-							badEdges.push_back(*e1);	
-							badEdges.push_back(*e2);	
+							e1->isBad = true;
+							e2->isBad = true;	
 						}
 					}
 				}
 
-				polygon.erase(std::remove_if(begin(polygon), end(polygon), [badEdges](EdgeType &e){
-					for(auto it = begin(badEdges); it != end(badEdges); it++)
-					{
-						if(*it == e)
-							return true;
-					}
-					return false;
+				polygon.erase(std::remove_if(begin(polygon), end(polygon), [](EdgeType &e){
+					return e.isBad;
 				}), end(polygon));
 
 				for(auto e = begin(polygon); e != end(polygon); e++)
