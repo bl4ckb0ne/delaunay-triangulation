@@ -48,7 +48,47 @@ TEST_F(DelaunayTest, DelaunayDouble) {
     Delaunay<double> triangulation;
     const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
     EXPECT_EQ(1, triangles.size());
-    // const std::vector<Edge<float> > edges = triangulation.getEdges();
+    // const std::vector<Edge<double> > edges = triangulation.getEdges();
+}
+
+TEST_F(DelaunayTest, DelaunayDoubleDegenerated) {
+    std::vector<Vector2<double> > points;
+    points.push_back(Vector2<double>(0.0, 0.0));
+    points.push_back(Vector2<double>(0.0, 0.0));
+    points.push_back(Vector2<double>(1.0, 0.0));
+    points.push_back(Vector2<double>(0.0, 1.0));
+    Delaunay<double> triangulation;
+    const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
+    EXPECT_EQ(1, triangles.size());
+    // const std::vector<Edge<double> > edges = triangulation.getEdges();
+}
+
+TEST_F(DelaunayTest, DelaunayFloat10000) {
+    std::vector<Vector2<float> > points(1e4);
+    srand(666);
+    for (size_t i=0; i < 1e4; ++i)
+    {
+        double x = (double)rand() / (double)RAND_MAX;
+        double y = (double)rand() / (double)RAND_MAX;
+        points.at(i) = Vector2<double>(x, y);
+    }
+    EXPECT_EQ(10000, points.size());
+    Delaunay<double> triangulation;
+    const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
+}
+
+TEST_F(DelaunayTest, DelaunayDouble10000) {
+    std::vector<Vector2<double> > points(1e4);
+    srand(666);
+    for (size_t i=0; i < 1e4; ++i)
+    {
+        double x = (double)rand() / (double)RAND_MAX;
+        double y = (double)rand() / (double)RAND_MAX;
+        points.at(i) = Vector2<double>(x, y);
+    }
+    EXPECT_EQ(10000, points.size());
+    Delaunay<double> triangulation;
+    const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
 }
 
 }   // namespace
