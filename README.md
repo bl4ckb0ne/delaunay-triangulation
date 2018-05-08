@@ -4,6 +4,8 @@
 
 ## Pseudo-code algorithm
 
+Pseudo-code can be found on [Wikipedia](https://en.wikipedia.org/wiki/Bowyer–Watson_algorithm)
+
 ```
 function BowyerWatson (pointList)
       // pointList is a set of coordinates defining the points to be triangulated
