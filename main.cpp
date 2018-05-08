@@ -13,9 +13,9 @@
 #include "delaunay.h"
 
 float RandomFloat(float a, float b) {
-    float random = ((float) rand()) / (float) RAND_MAX;
-    float diff = b - a;
-    float r = random * diff;
+    const float random = ((float) rand()) / (float) RAND_MAX;
+    const float diff = b - a;
+    const float r = random * diff;
     return a + r;
 }
 
