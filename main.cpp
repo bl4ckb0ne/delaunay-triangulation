@@ -34,51 +34,51 @@ int main(int argc, char * argv[])
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vector2<float>> points;
-	for(int i = 0; i < numberPoints; i++) {
+	std::vector<Vector2<float> > points;
+	for(int i = 0; i < numberPoints; ++i) {
 		points.push_back(Vector2<float>(RandomFloat(0, 800), RandomFloat(0, 600)));
 	}
 
 	Delaunay<float> triangulation;
-	std::vector<Triangle<float>> triangles = triangulation.triangulate(points);
+	const std::vector<Triangle<float> > triangles = triangulation.triangulate(points);
 	std::cout << triangles.size() << " triangles generated\n";
-	std::vector<Edge<float>> edges = triangulation.getEdges();
-	
+	const std::vector<Edge<float> > edges = triangulation.getEdges();
+
 	std::cout << " ========= ";
-	
+
 	std::cout << "\nPoints : " << points.size() << std::endl;
-	for(auto &p : points)
+	for(const auto &p : points)
 		std::cout << p << std::endl;
-	
+
 	std::cout << "\nTriangles : " << triangles.size() << std::endl;
-	for(auto &t : triangles)
+	for(const auto &t : triangles)
 		std::cout << t << std::endl;
 
 	std::cout << "\nEdges : " << edges.size() << std::endl;
-	for(auto &e : edges)
+	for(const auto &e : edges)
 		std::cout << e << std::endl;
-			
+
 	// SFML window
-    	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
 
 	// Transform each points of each vector as a rectangle
 	std::vector<sf::RectangleShape*> squares;
 
-	for(auto p = begin(points); p != end(points); p++) {
+	for(const auto p : points) {
 		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
-		c1->setPosition(p->x, p->y);
+		c1->setPosition(p.x, p.y);
 		squares.push_back(c1);
 	}
-	
+
 	// Make the lines
 	std::vector<std::array<sf::Vertex, 2> > lines;
-	for(auto e = begin(edges); e != end(edges); e++) {
+	for(const auto &e : edges) {
 		lines.push_back({{
-			sf::Vertex(sf::Vector2f((*e).p1.x + 2, (*e).p1.y + 2)),	
-			sf::Vertex(sf::Vector2f((*e).p2.x + 2, (*e).p2.y + 2))	
+			sf::Vertex(sf::Vector2f(e.p1.x + 2, e.p1.y + 2)),
+			sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
 		}});
 	}
- 
+
 	while (window.isOpen())
 	{
 	        sf::Event event;
