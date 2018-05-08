@@ -68,13 +68,13 @@ TEST_F(DelaunayTest, DelaunayFloat10000) {
     srand(666);
     for (size_t i=0; i < 1e4; ++i)
     {
-        double x = (double)rand() / (double)RAND_MAX;
-        double y = (double)rand() / (double)RAND_MAX;
-        points.at(i) = Vector2<double>(x, y);
+        float x = (float)rand() / (float)RAND_MAX;
+        float y = (double)rand() / (float)RAND_MAX;
+        points.at(i) = Vector2<float>(x, y);
     }
     EXPECT_EQ(10000, points.size());
-    Delaunay<double> triangulation;
-    const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
+    Delaunay<float> triangulation;
+    const std::vector<Triangle<float> > triangles = triangulation.triangulate(points);
 }
 
 TEST_F(DelaunayTest, DelaunayDouble10000) {
