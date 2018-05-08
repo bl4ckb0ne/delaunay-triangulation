@@ -6,7 +6,7 @@ compiler:
 - gcc
 os:
 - linux
-- mac
+- osx
 before_install:
 - echo $LANG
 - echo $LC_ALL
@@ -15,7 +15,7 @@ before_install:
 script:
 - make
 after_success:
-- if [ $TRAVIS_OS_NAME == linux ]; then ./scripts/build_support.sh archive_codedb; fi
+- echo "Success"
 branches:
   only:
   - master
