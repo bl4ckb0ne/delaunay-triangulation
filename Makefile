@@ -10,6 +10,7 @@ OBJ = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 CXXFLAGS = -std=c++11 -Weffc++ -Wall -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -lsfml-graphics -lsfml-window -lsfml-system
 
 CXXFLAGS_TESTS = -std=c++11 -Weffc++ -Wall -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline
+LDFLAGS_TESTS = -lpthread
 
 all: $(EXE)
 test: dir $(EXE_TESTS)
@@ -18,7 +19,7 @@ $(EXE): dir main.o
 	$(CXX) -o $@ $(BUILD_DIR)/main.o $(CXXFLAGS)
 
 $(EXE_TESTS):tests.o gtests.o
-	$(CXX) -o $@ $(BUILD_DIR)/tests.o $(BUILD_DIR)/gtests.o $(CXXFLAGS_TESTS)
+	$(CXX) -o $@ $(BUILD_DIR)/tests.o $(BUILD_DIR)/gtests.o $(CXXFLAGS_TESTS) $(LDFLAGS_TESTS)
 
 main.o:main.cpp
 	$(CXX) -o $(BUILD_DIR)/$@ -c $< $(CXXFLAGS)
