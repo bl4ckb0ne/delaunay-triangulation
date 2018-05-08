@@ -3,9 +3,6 @@
 
 #include <cmath>
 #include <limits>
-// #include <iomanip>
-// #include <type_traits>
-// #include <algorithm>
 
 template<class T>
 typename std::enable_if<!std::numeric_limits<T>::is_integer, bool>::type
