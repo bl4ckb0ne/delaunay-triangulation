@@ -6,7 +6,7 @@ BUILD_DIR = build
 SRC = $(wildcard *.cpp) $(wildcard **/*.cpp)
 OBJ = $(patsubst %.cpp, $(BUILD_DIR)/%.o, $(SRC))
 
-CXXFLAGS = -std=c++11 -Weff -Wall -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -lsfml-graphics -lsfml-window -lsfml-system
+CXXFLAGS = -std=c++11 -Weffc++ -Wall -Wextra -Wfatal-errors -Wunused -pedantic -w -Winline -fno-rtti -ggdb -D_GLIBCXX_DEBUG -lsfml-graphics -lsfml-window -lsfml-system
 
 all: $(EXE)
 
