@@ -51,8 +51,8 @@ make
 ```
 You may change the compiler on the makefile (using the CXX var)
 ```sh
-make CXX=g++ 		# to use the GCC compiler
-make CXX=clang++ 	      # default compiler
+make CXX=g++            # to use the GCC compiler
+make CXX=clang++        # default compiler
 ```
 
 The executable name is ``` delaunay ```, without arguments
