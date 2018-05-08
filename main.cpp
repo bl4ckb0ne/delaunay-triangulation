@@ -19,10 +19,18 @@ float RandomFloat(float a, float b) {
     return a + r;
 }
 
-int main()
+int main(int argc, char * argv[])
 {
+	int numberPoints = 40;
+	if (argc==1)
+	{
+		numberPoints = (int) roundf(RandomFloat(4, numberPoints));
+	}
+	else if (argc>1)
+	{
+		numberPoints = atoi(argv[1]);
+	}
 	srand (time(NULL));
-	float numberPoints = roundf(RandomFloat(4, 40));
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
