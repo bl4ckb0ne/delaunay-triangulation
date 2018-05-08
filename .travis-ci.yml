@@ -3,8 +3,10 @@ sudo: required
 dist: trusty
 compiler:
 - clang
+- gcc
 os:
 - linux
+- mac
 before_install:
 - echo $LANG
 - echo $LC_ALL
