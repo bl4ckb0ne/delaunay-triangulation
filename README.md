@@ -65,6 +65,13 @@ Number of points to use to create triangulation can be given
 ./delaunay 50
 ```
 
+You can compile and run tests with the following commands
+```sh
+make test
+./tests_delaunay
+```
+
+
 You also can clear the executable and the build folder.
 ```sh
 make clean
