@@ -91,17 +91,17 @@ int main(int argc, char * argv[])
 		window.clear();
 
 		// Draw the squares
-		for(auto s = begin(squares); s != end(squares); s++) {
-			window.draw(**s);
+		for(const auto &s : squares) {
+			window.draw(*s);
 		}
-	
+
 		// Draw the lines
-		for(auto l = begin(lines); l != end(lines); l++) {
-			window.draw((*l).data(), 2, sf::Lines);
+		for(const auto &l : lines) {
+			window.draw(l.data(), 2, sf::Lines);
 		}
-	       	
+
 		window.display();
 	}
-	
+
 	return 0;
 }
