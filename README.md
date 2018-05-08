@@ -60,6 +60,11 @@ The executable name is ``` delaunay ```, without arguments
 ./delaunay
 ```
 
+Number of points to use to create triangulation can be given
+```sh
+./delaunay 50
+```
+
 You also can clear the executable and the build folder.
 ```sh
 make clean
