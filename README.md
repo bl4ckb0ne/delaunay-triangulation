@@ -1,6 +1,10 @@
 # delaunay-triangulation
 
+[![Build Status](https://travis-ci.org/Gjacquenot/delaunay-triangulation.svg?branch=master)](https://travis-ci.org/Gjacquenot/delaunay-triangulation)
+
 ## Pseudo-code algorithm
+
+Pseudo-code can be found on [Wikipedia](https://en.wikipedia.org/wiki/Bowyer–Watson_algorithm)
 
 ```
 function BowyerWatson (pointList)
@@ -27,16 +31,16 @@ function BowyerWatson (pointList)
             remove triangle from triangulation
       return triangulation
 ```
-  
-## Sample  
-  
-![alt text](https://github.com/Bl4ckb0ne/delaunay-triangulation/blob/master/sample.png "Sample image (if you see this, then the image can't load or hasn't loaded yet)")  
-  
 
-From the [Wikipedia page of the algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)  
-  
-## Requirement  
-  
+## Sample
+
+![alt text](https://github.com/Bl4ckb0ne/delaunay-triangulation/blob/master/sample.png "Sample image (if you see this, then the image can't load or hasn't loaded yet)")
+
+
+From the [Wikipedia page of the algorithm](https://en.wikipedia.org/wiki/Bowyer%E2%80%93Watson_algorithm)
+
+## Requirement
+
 You will need [SFML 2+](http://www.sfml-dev.org/download/sfml/2.3.2/) to run the example, and C++11 to compile it.
 
 ## Usage
@@ -47,14 +51,26 @@ make
 ```
 You may change the compiler on the makefile (using the CXX var)
 ```sh
-make CXX=g++ 		# to use the GCC compiler
-make CXX=clang++ 	      # default compiler
+make CXX=g++            # to use the GCC compiler
+make CXX=clang++        # default compiler
 ```
 
 The executable name is ``` delaunay ```, without arguments
 ```sh
 ./delaunay
 ```
+
+Number of points to use to create triangulation can be given
+```sh
+./delaunay 50
+```
+
+You can compile and run tests with the following commands
+```sh
+make test
+./tests_delaunay
+```
+
 
 You also can clear the executable and the build folder.
 ```sh
