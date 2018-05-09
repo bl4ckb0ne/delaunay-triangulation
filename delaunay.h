@@ -79,13 +79,10 @@ class Delaunay
 					return t.isBad;
 				}), end(_triangles));
 
-				for(auto e1 = begin(polygon); e1 != end(polygon); e1++)
+				for(auto e1 = begin(polygon); e1 != end(polygon); ++e1)
 				{
-					for(auto e2 = begin(polygon); e2 != end(polygon); e2++)
+					for(auto e2 = e1 + 1; e2 != end(polygon); ++e2)
 					{
-						if(e1 == e2)
-							continue;
-
 						if(almost_equal(*e1, *e2))
 						{
 							e1->isBad = true;
