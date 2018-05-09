@@ -1,6 +1,6 @@
 # delaunay-triangulation
 
-[![Build Status](https://travis-ci.org/Gjacquenot/delaunay-triangulation.svg?branch=master)](https://travis-ci.org/Gjacquenot/delaunay-triangulation)
+[![Build Status](https://travis-ci.org/Bl4ckb0ne/delaunay-triangulation.svg?branch=master)](https://travis-ci.org/Gjacquenot/delaunay-triangulation)
 
 ## Pseudo-code algorithm
 
