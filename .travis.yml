@@ -15,7 +15,7 @@ before_install:
 script:
 - make
 - make test
-- ./tests_delaunay
+- ./tests_delaunay --durations yes
 after_success:
 - echo "Success"
 branches:
