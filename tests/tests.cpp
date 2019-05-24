@@ -1,4 +1,5 @@
 #define CATCH_CONFIG_MAIN
+#include <random>
 #include <catch2/catch.hpp>
 #include "delaunay.h"
 
@@ -36,13 +37,16 @@ TEST_CASE("Delaunay triangulation should be able to handle duplicated 3 points a
     // const std::vector<Edge<double> > edges = triangulation.getEdges();
 }
 
+std::default_random_engine eng(std::random_device{}());
+
 TEST_CASE("Delaunay triangulation should be able to handle 10000 points as float", "[DelaunayTest]") {
+	std::uniform_real_distribution<float> dist(0,
+			std::numeric_limits<float>::max());
     std::vector<Vector2<float> > points(1e4);
-    srand(666);
     for (size_t i=0; i < 1e4; ++i)
     {
-        float x = (float)rand() / (float)RAND_MAX;
-        float y = (double)rand() / (float)RAND_MAX;
+        const float x = dist(eng);
+        const float y = dist(eng);
         points.at(i) = Vector2<float>(x, y);
     }
     REQUIRE(10000 == points.size());
@@ -51,12 +55,13 @@ TEST_CASE("Delaunay triangulation should be able to handle 10000 points as float
 }
 
 TEST_CASE("Delaunay triangulation should be able to handle 10000 points as double", "[DelaunayTest]") {
+	std::uniform_real_distribution<double> dist(0,
+			std::numeric_limits<double>::max());
     std::vector<Vector2<double> > points(1e4);
-    srand(666);
     for (size_t i=0; i < 1e4; ++i)
     {
-        double x = (double)rand() / (double)RAND_MAX;
-        double y = (double)rand() / (double)RAND_MAX;
+        const double x = dist(eng);
+        const double y = dist(eng);
         points.at(i) = Vector2<double>(x, y);
     }
     REQUIRE(10000 == points.size());
