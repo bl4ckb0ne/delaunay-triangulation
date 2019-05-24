@@ -24,16 +24,16 @@ Vector2::norm2() const
 	return x * x + y * y;
 }
 
-std::ostream&
-Vector2::operator <<(std::ostream &str)
-{
-	return str << "Point x: " << this->x << " y: " << this->y;
-}
-
 bool
 Vector2::operator ==(const Vector2 &v)
 {
 	return (this->x == v.x) && (this->y == v.y);
+}
+
+std::ostream &
+operator <<(std::ostream &str, const Vector2 &v)
+{
+	return str << "Point x: " << v.x << " y: " << v.y;
 }
 
 bool almost_equal(const Vector2 &v1, const Vector2 &v2, int ulp)
