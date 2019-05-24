@@ -51,28 +51,29 @@ int main(int argc, char * argv[])
 
 	// SFML window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
+	window.setFramerateLimit(1);
 
 	// Transform each points of each vector as a rectangle
-	std::vector<sf::RectangleShape*> squares;
-
 	for(const auto p : points) {
-		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
-		c1->setPosition(static_cast<float>(p.x), static_cast<float>(p.y));
-		squares.push_back(c1);
+		sf::RectangleShape s{sf::Vector2f(4, 4)};
+		s.setPosition(static_cast<float>(p.x), static_cast<float>(p.y));
+		window.draw(s);
 	}
 
-	// Make the lines
 	std::vector<std::array<sf::Vertex, 2> > lines;
 	for(const auto &e : edges) {
-		lines.push_back({{
+		const std::array<sf::Vertex, 2> line{{
 			sf::Vertex(sf::Vector2f(
 					static_cast<float>(e.p1.x + 2.),
 					static_cast<float>(e.p1.y + 2.))),
 			sf::Vertex(sf::Vector2f(
 					static_cast<float>(e.p2.x + 2.),
 					static_cast<float>(e.p2.y + 2.))),
-		}});
+		}};
+		window.draw(std::data(line), 2, sf::Lines);
 	}
+
+	window.display();
 
 	while (window.isOpen())
 	{
@@ -82,20 +83,6 @@ int main(int argc, char * argv[])
 			if (event.type == sf::Event::Closed)
 				window.close();
 		}
-
-		window.clear();
-
-		// Draw the squares
-		for(const auto &s : squares) {
-			window.draw(*s);
-		}
-
-		// Draw the lines
-		for(const auto &l : lines) {
-			window.draw(l.data(), 2, sf::Lines);
-		}
-
-		window.display();
 	}
 
 	return 0;
