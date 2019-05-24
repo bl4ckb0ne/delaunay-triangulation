@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include "delaunay.h"
 
 TEST_CASE("Delaunay triangulation should be able to triangulate 3 points as float", "[DelaunayTest]") {
