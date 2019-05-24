@@ -13,36 +13,13 @@ struct Vector2
 	Vector2(Vector2&&) = default;
 	Vector2(double _x, double _y);
 
-		//
-		// Operations
-		//
-		T dist2(const Vector2 &v) const
-		{
-			T dx = x - v.x;
-			T dy = y - v.y;
-			return dx * dx + dy * dy;
-		}
+	double dist2(const Vector2 &v) const;
+	double dist(const Vector2 &v) const;
+	double norm2() const;
 
-		T dist(const Vector2 &v) const
-		{
-			return sqrt(dist2(v));
-		}
-
-		T norm2() const
-		{
-			return x * x + y * y;
-		}
-
-		T x;
-		T y;
-
+	double x;
+	double y;
 };
-
-template <>
-float Vector2<float>::dist(const Vector2<float> &v) const { return hypotf(x - v.x, y - v.y);}
-
-template <>
-double Vector2<double>::dist(const Vector2<double> &v) const { return hypot(x - v.x, y - v.y);}
 
 template<typename T>
 std::ostream &operator << (std::ostream &str, Vector2<T> const &point)
