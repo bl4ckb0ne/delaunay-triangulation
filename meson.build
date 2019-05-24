@@ -42,6 +42,7 @@ lib_dt = shared_library(
 	files(
 		'dt/numeric.cpp',
 		'dt/vector2.cpp',
+		'dt/edge.cpp',
 	),
 	version: meson.project_version(),
 	include_directories: include,
