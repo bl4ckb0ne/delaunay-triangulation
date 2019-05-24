@@ -6,19 +6,12 @@
 #include <iostream>
 #include <cmath>
 
-template <typename T>
-class Vector2
+struct Vector2
 {
-	public:
-		//
-		// Constructors
-		//
-
-		Vector2():x(0), y(0){}
-
-		Vector2(T _x, T _y): x(_x), y(_y){}
-
-		Vector2(const Vector2 &v): x(v.x), y(v.y){}
+	Vector2() = default;
+	Vector2(const Vector2 &v) = default;
+	Vector2(Vector2&&) = default;
+	Vector2(double _x, double _y);
 
 		//
 		// Operations
