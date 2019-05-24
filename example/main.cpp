@@ -20,20 +20,20 @@ int main(int argc, char * argv[])
 	}
 
 	std::default_random_engine eng(std::random_device{}());
-	std::uniform_real_distribution<float> dist_w(0, 800);
-	std::uniform_real_distribution<float> dist_h(0, 600);
+	std::uniform_real_distribution<double> dist_w(0, 800);
+	std::uniform_real_distribution<double> dist_h(0, 600);
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vector2<float> > points;
+	std::vector<Vector2> points;
 	for(int i = 0; i < numberPoints; ++i) {
-		points.push_back(Vector2<float>(dist_w(eng), dist_h(eng)));
+		points.push_back(Vector2{dist_w(eng), dist_h(eng)});
 	}
 
-	Delaunay<float> triangulation;
-	const std::vector<Triangle<float> > triangles = triangulation.triangulate(points);
+	Delaunay triangulation;
+	const std::vector<Triangle> triangles = triangulation.triangulate(points);
 	std::cout << triangles.size() << " triangles generated\n";
-	const std::vector<Edge<float> > edges = triangulation.getEdges();
+	const std::vector<Edge> edges = triangulation.getEdges();
 
 	std::cout << " ========= ";
 
@@ -57,7 +57,7 @@ int main(int argc, char * argv[])
 
 	for(const auto p : points) {
 		sf::RectangleShape *c1 = new sf::RectangleShape(sf::Vector2f(4, 4));
-		c1->setPosition(p.x, p.y);
+		c1->setPosition(static_cast<float>(p.x), static_cast<float>(p.y));
 		squares.push_back(c1);
 	}
 
@@ -65,8 +65,12 @@ int main(int argc, char * argv[])
 	std::vector<std::array<sf::Vertex, 2> > lines;
 	for(const auto &e : edges) {
 		lines.push_back({{
-			sf::Vertex(sf::Vector2f(e.p1.x + 2, e.p1.y + 2)),
-			sf::Vertex(sf::Vector2f(e.p2.x + 2, e.p2.y + 2))
+			sf::Vertex(sf::Vector2f(
+					static_cast<float>(e.p1.x + 2.),
+					static_cast<float>(e.p1.y + 2.))),
+			sf::Vertex(sf::Vector2f(
+					static_cast<float>(e.p2.x + 2.),
+					static_cast<float>(e.p2.y + 2.))),
 		}});
 	}
 
