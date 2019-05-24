@@ -1,6 +1,6 @@
 #include "vector2.h"
 
-Vector2::Vector2(double _x, double _y) :
+Vector2::Vector2(const double _x, const double _y) :
 	x(_x), y(_y)
 {}
 

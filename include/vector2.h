@@ -11,7 +11,7 @@ struct Vector2
 	Vector2() = default;
 	Vector2(const Vector2 &v) = default;
 	Vector2(Vector2&&) = default;
-	Vector2(double _x, double _y);
+	Vector2(const double _x, const double _y);
 
 	double dist2(const Vector2 &v) const;
 	double dist(const Vector2 &v) const;
