@@ -44,6 +44,7 @@ lib_dt = shared_library(
 		'dt/vector2.cpp',
 		'dt/edge.cpp',
 		'dt/triangle.cpp',
+		'dt/delaunay.cpp',
 	),
 	version: meson.project_version(),
 	include_directories: include,
