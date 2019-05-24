@@ -39,7 +39,9 @@ install_headers(
 
 lib_dt = shared_library(
 	meson.project_name(),
-	files(),
+	files(
+		'dt/numeric.cpp',
+	),
 	version: meson.project_version(),
 	include_directories: include,
 	install: true,
