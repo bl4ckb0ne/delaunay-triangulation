@@ -42,14 +42,15 @@ std::default_random_engine eng(std::random_device{}());
 TEST_CASE("Delaunay triangulation should be able to handle 10000 points as float", "[DelaunayTest]") {
 	std::uniform_real_distribution<float> dist(0,
 			std::numeric_limits<float>::max());
-    std::vector<Vector2<float> > points(1e4);
-    for (size_t i=0; i < 1e4; ++i)
+	constexpr size_t nb_pts = 1e4;
+    std::vector<Vector2<float> > points(nb_pts);
+    for (size_t i=0; i < nb_pts; ++i)
     {
         const float x = dist(eng);
         const float y = dist(eng);
         points.at(i) = Vector2<float>(x, y);
     }
-    REQUIRE(10000 == points.size());
+    REQUIRE(points.size() == nb_pts);
     Delaunay<float> triangulation;
     const std::vector<Triangle<float> > triangles = triangulation.triangulate(points);
 }
@@ -57,14 +58,15 @@ TEST_CASE("Delaunay triangulation should be able to handle 10000 points as float
 TEST_CASE("Delaunay triangulation should be able to handle 10000 points as double", "[DelaunayTest]") {
 	std::uniform_real_distribution<double> dist(0,
 			std::numeric_limits<double>::max());
-    std::vector<Vector2<double> > points(1e4);
-    for (size_t i=0; i < 1e4; ++i)
+	constexpr size_t nb_pts = 1e4;
+    std::vector<Vector2<double> > points(nb_pts);
+    for (size_t i=0; i < nb_pts; ++i)
     {
         const double x = dist(eng);
         const double y = dist(eng);
         points.at(i) = Vector2<double>(x, y);
     }
-    REQUIRE(10000 == points.size());
+    REQUIRE(points.size() == nb_pts);
     Delaunay<double> triangulation;
     const std::vector<Triangle<double> > triangles = triangulation.triangulate(points);
 }
