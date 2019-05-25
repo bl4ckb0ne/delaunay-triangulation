@@ -64,11 +64,11 @@ int main(int argc, char * argv[])
 	for(const auto &e : edges) {
 		const std::array<sf::Vertex, 2> line{{
 			sf::Vertex(sf::Vector2f(
-					static_cast<float>(e.p1.x + 2.),
-					static_cast<float>(e.p1.y + 2.))),
+					static_cast<float>(e.v->x + 2.),
+					static_cast<float>(e.v->y + 2.))),
 			sf::Vertex(sf::Vector2f(
-					static_cast<float>(e.p2.x + 2.),
-					static_cast<float>(e.p2.y + 2.))),
+					static_cast<float>(e.w->x + 2.),
+					static_cast<float>(e.w->y + 2.))),
 		}};
 		window.draw(std::data(line), 2, sf::Lines);
 	}

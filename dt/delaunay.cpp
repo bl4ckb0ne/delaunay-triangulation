@@ -69,7 +69,7 @@ Delaunay::triangulate(std::vector<VertexType> &vertices)
 		}), end(polygon));
 
 		for(const auto e : polygon)
-			_triangles.push_back(TriangleType(e.p1, e.p2, *p));
+			_triangles.push_back(TriangleType(*e.v, *e.w, *p));
 
 	}
 

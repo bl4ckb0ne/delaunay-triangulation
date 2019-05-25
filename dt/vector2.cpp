@@ -25,7 +25,7 @@ Vector2::norm2() const
 }
 
 bool
-Vector2::operator ==(const Vector2 &v)
+Vector2::operator ==(const Vector2 &v) const
 {
 	return (this->x == v.x) && (this->y == v.y);
 }

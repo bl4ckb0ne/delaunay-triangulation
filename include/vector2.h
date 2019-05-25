@@ -19,7 +19,7 @@ struct Vector2
 
 	Vector2 &operator=(const Vector2&) = default;
 	Vector2 &operator=(Vector2&&) = default;
-	bool operator ==(const Vector2 &v);
+	bool operator ==(const Vector2 &v) const;
 	friend std::ostream &operator <<(std::ostream &str, const Vector2 &v);
 
 	double x;

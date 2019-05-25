@@ -10,15 +10,15 @@ struct Edge
 	Edge() = default;
 	Edge(const Edge&) = default;
 	Edge(Edge&&) = default;
-	Edge(const VertexType &_p1, const VertexType &_p2);
+	Edge(const VertexType &v1, const VertexType &v2);
 
 	Edge &operator=(const Edge&) = default;
 	Edge &operator=(Edge&&) = default;
-	bool operator ==(const Edge &e);
+	bool operator ==(const Edge &e) const;
 	friend std::ostream &operator <<(std::ostream &str, const Edge &e);
 
-	VertexType p1;
-	VertexType p2;
+	const VertexType *v;
+	const VertexType *w;
 	bool isBad = false;
 };
 
