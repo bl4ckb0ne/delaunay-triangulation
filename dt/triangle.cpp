@@ -1,52 +1,59 @@
 #include "triangle.h"
 
-Triangle::Triangle(const VertexType &_p1, const VertexType &_p2, const VertexType &_p3) :
-	p1(_p1), p2(_p2), p3(_p3), e1(_p1, _p2), e2(_p2, _p3), e3(_p3, _p1), isBad(false)
+Triangle::Triangle(const VertexType &v1, const VertexType &v2, const VertexType &v3) :
+	a(&v1), b(&v2), c(&v3), isBad(false)
 {}
 
 bool
 Triangle::containsVertex(const VertexType &v) const
 {
 	// return p1 == v || p2 == v || p3 == v;
-	return almost_equal(p1, v) || almost_equal(p2, v) || almost_equal(p3, v);
+	return almost_equal(*a, v) || almost_equal(*b, v) || almost_equal(*c, v);
 }
 
 bool
 Triangle::circumCircleContains(const VertexType &v) const
 {
-	const double ab = p1.norm2();
-	const double cd = p2.norm2();
-	const double ef = p3.norm2();
+	const double ab = a->norm2();
+	const double cd = b->norm2();
+	const double ef = c->norm2();
 
-	const double circum_x = (ab * (p3.y - p2.y) + cd * (p1.y - p3.y) + ef * (p2.y - p1.y)) / (p1.x * (p3.y - p2.y) + p2.x * (p1.y - p3.y) + p3.x * (p2.y - p1.y));
-	const double circum_y = (ab * (p3.x - p2.x) + cd * (p1.x - p3.x) + ef * (p2.x - p1.x)) / (p1.y * (p3.x - p2.x) + p2.y * (p1.x - p3.x) + p3.y * (p2.x - p1.x));
+	const double ax = a->x;
+	const double ay = a->y;
+	const double bx = b->x;
+	const double by = b->y;
+	const double cx = c->x;
+	const double cy = c->y;
+
+	const double circum_x = (ab * (cy - by) + cd * (ay - cy) + ef * (by - ay)) / (ax * (cy - by) + bx * (ay - cy) + cx * (by - ay));
+	const double circum_y = (ab * (cx - bx) + cd * (ax - cx) + ef * (bx - ax)) / (ay * (cx - bx) + by * (ax - cx) + cy * (bx - ax));
 
 	const VertexType circum(half(circum_x), half(circum_y));
-	const double circum_radius = p1.dist2(circum);
+	const double circum_radius = a->dist2(circum);
 	const double dist = v.dist2(circum);
 	return dist <= circum_radius;
 }
 
 bool
-Triangle::operator ==(const Triangle &t)
+Triangle::operator ==(const Triangle &t) const
 {
-	return	(this->p1 == t.p1 || this->p1 == t.p2 || this->p1 == t.p3) &&
-			(this->p2 == t.p1 || this->p2 == t.p2 || this->p2 == t.p3) &&
-			(this->p3 == t.p1 || this->p3 == t.p2 || this->p3 == t.p3);
+	return	(*this->a == *t.a || *this->a == *t.b || *this->a == *t.c) &&
+			(*this->b == *t.a || *this->b == *t.b || *this->b == *t.c) &&
+			(*this->c == *t.a || *this->c == *t.b || *this->c == *t.c);
 }
 
 std::ostream&
 operator <<(std::ostream &str, const Triangle &t)
 {
 	return str << "Triangle:" << "\n\t" <<
-			t.e1 << "\n\t" <<
-			t.e2 << "\n\t" <<
-			t.e3 << '\n';
+			*t.a << "\n\t" <<
+			*t.b << "\n\t" <<
+			*t.c << '\n';
 }
 
 bool almost_equal(const Triangle &t1, const Triangle &t2)
 {
-	return	(almost_equal(t1.p1 , t2.p1) || almost_equal(t1.p1 , t2.p2) || almost_equal(t1.p1 , t2.p3)) &&
-			(almost_equal(t1.p2 , t2.p1) || almost_equal(t1.p2 , t2.p2) || almost_equal(t1.p2 , t2.p3)) &&
-			(almost_equal(t1.p3 , t2.p1) || almost_equal(t1.p3 , t2.p2) || almost_equal(t1.p3 , t2.p3));
+	return	(almost_equal(*t1.a , *t2.a) || almost_equal(*t1.a , *t2.b) || almost_equal(*t1.a , *t2.c)) &&
+			(almost_equal(*t1.b , *t2.a) || almost_equal(*t1.b , *t2.b) || almost_equal(*t1.b , *t2.c)) &&
+			(almost_equal(*t1.c , *t2.a) || almost_equal(*t1.c , *t2.b) || almost_equal(*t1.c , *t2.c));
 }

@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <array>
 #include <random>
+#include <chrono>
 
 #include <SFML/Graphics.hpp>
 
@@ -31,10 +32,17 @@ int main(int argc, char * argv[])
 	}
 
 	Delaunay triangulation;
+	const auto start = std::chrono::high_resolution_clock::now();
 	const std::vector<Triangle> triangles = triangulation.triangulate(points);
-	std::cout << triangles.size() << " triangles generated\n";
+	const auto end = std::chrono::high_resolution_clock::now();
+	const std::chrono::duration<double> diff = end - start;
+
+	std::cout << triangles.size() << " triangles generated in " << diff.count()
+			<< "s\n";
+//	return 0;
 	const std::vector<Edge> edges = triangulation.getEdges();
 
+	/*
 	std::cout << " ========= ";
 
 	std::cout << "\nPoints : " << points.size() << std::endl;
@@ -48,6 +56,7 @@ int main(int argc, char * argv[])
 	std::cout << "\nEdges : " << edges.size() << std::endl;
 	for(const auto &e : edges)
 		std::cout << e << std::endl;
+	*/
 
 	// SFML window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");

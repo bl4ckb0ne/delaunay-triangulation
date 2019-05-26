@@ -13,22 +13,19 @@ struct Triangle
 	Triangle() = default;
 	Triangle(const Triangle&) = default;
 	Triangle(Triangle&&) = default;
-	Triangle(const VertexType &_p1, const VertexType &_p2, const VertexType &_p3);
+	Triangle(const VertexType &v1, const VertexType &v2, const VertexType &v3);
 
 	bool containsVertex(const VertexType &v) const;
 	bool circumCircleContains(const VertexType &v) const;
 
 	Triangle &operator=(const Triangle&) = default;
 	Triangle &operator=(Triangle&&) = default;
-	bool operator ==(const Triangle &t);
+	bool operator ==(const Triangle &t) const;
 	friend std::ostream &operator <<(std::ostream &str, const Triangle &t);
 
-	VertexType p1;
-	VertexType p2;
-	VertexType p3;
-	EdgeType e1;
-	EdgeType e2;
-	EdgeType e3;
+	const VertexType *a;
+	const VertexType *b;
+	const VertexType *c;
 	bool isBad = false;
 };
 

@@ -42,9 +42,9 @@ Delaunay::triangulate(std::vector<VertexType> &vertices)
 			if(t.circumCircleContains(*p))
 			{
 				t.isBad = true;
-				polygon.push_back(t.e1);
-				polygon.push_back(t.e2);
-				polygon.push_back(t.e3);
+				polygon.push_back(Edge{*t.a, *t.b});
+				polygon.push_back(Edge{*t.b, *t.c});
+				polygon.push_back(Edge{*t.c, *t.a});
 			}
 		}
 
@@ -79,9 +79,9 @@ Delaunay::triangulate(std::vector<VertexType> &vertices)
 
 	for(const auto t : _triangles)
 	{
-		_edges.push_back(t.e1);
-		_edges.push_back(t.e2);
-		_edges.push_back(t.e3);
+		_edges.push_back(Edge{*t.a, *t.b});
+		_edges.push_back(Edge{*t.b, *t.c});
+		_edges.push_back(Edge{*t.c, *t.a});
 	}
 
 	return _triangles;
