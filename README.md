@@ -41,38 +41,14 @@ From the [Wikipedia page of the algorithm](https://en.wikipedia.org/wiki/Bowyer%
 
 ## Requirement
 
-You will need [SFML 2+](http://www.sfml-dev.org/download/sfml/2.3.2/) to run the example, and C++11 to compile it.
+- [Meson](https://mesonbuild.com/)
+- [SFML 2+](http://www.sfml-dev.org/download/sfml/2.3.2/)
+- [Catch2](https://github.com/catchorg/Catch2) 
 
-## Usage
 
-To build it, you can type in :
+## Build
+
 ```sh
-make
-```
-You may change the compiler on the makefile (using the CXX var)
-```sh
-make CXX=g++            # to use the GCC compiler
-make CXX=clang++        # default compiler
-```
-
-The executable name is ``` delaunay ```, without arguments
-```sh
-./delaunay
-```
-
-Number of points to use to create triangulation can be given
-```sh
-./delaunay 50
-```
-
-You can compile and run tests with the following commands
-```sh
-make test
-./tests_delaunay
-```
-
-
-You also can clear the executable and the build folder.
-```sh
-make clean
+meson build
+ninja -C build
 ```
