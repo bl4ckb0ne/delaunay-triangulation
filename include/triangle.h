@@ -1,14 +1,16 @@
 #ifndef H_TRIANGLE
 #define H_TRIANGLE
 
+#include "numeric.h"
 #include "vector2.h"
 #include "edge.h"
-#include "numeric.h"
 
+template<typename T>
 struct Triangle
 {
-	using EdgeType = Edge;
-	using VertexType = Vector2;
+	using Type = T;
+	using VertexType = Vector2<Type>;
+	using EdgeType = Edge<Type>;
 
 	Triangle() = default;
 	Triangle(const Triangle&) = default;
@@ -21,14 +23,25 @@ struct Triangle
 	Triangle &operator=(const Triangle&) = default;
 	Triangle &operator=(Triangle&&) = default;
 	bool operator ==(const Triangle &t) const;
-	friend std::ostream &operator <<(std::ostream &str, const Triangle &t);
+
+	template<typename U>
+	friend std::ostream &operator <<(std::ostream &str, const Triangle<U> &t);
 
 	const VertexType *a;
 	const VertexType *b;
 	const VertexType *c;
 	bool isBad = false;
+
+	static_assert(std::is_floating_point_v<Triangle<T>::Type>,
+		"Type must be floating-point");
 };
 
-bool almost_equal(const Triangle &t1, const Triangle &t2);
+template<typename T>
+bool almost_equal(const Triangle<T> &t1, const Triangle<T> &t2)
+{
+	return	(almost_equal(*t1.a , *t2.a) || almost_equal(*t1.a , *t2.b) || almost_equal(*t1.a , *t2.c)) &&
+			(almost_equal(*t1.b , *t2.a) || almost_equal(*t1.b , *t2.b) || almost_equal(*t1.b , *t2.c)) &&
+			(almost_equal(*t1.c , *t2.a) || almost_equal(*t1.c , *t2.b) || almost_equal(*t1.c , *t2.c));
+}
 
 #endif

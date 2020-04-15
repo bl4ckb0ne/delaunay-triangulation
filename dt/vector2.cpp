@@ -1,42 +1,51 @@
 #include "vector2.h"
 
-Vector2::Vector2(const double vx, const double vy) :
+template<typename T>
+Vector2<T>::Vector2(const T vx, const T vy) :
 	x(vx), y(vy)
 {}
 
-double
-Vector2::dist2(const Vector2 &v) const
+template<typename T>
+T
+Vector2<T>::dist2(const Vector2<T> &v) const
 {
-	const double dx = x - v.x;
-	const double dy = y - v.y;
+	const T dx = x - v.x;
+	const T dy = y - v.y;
 	return dx * dx + dy * dy;
 }
 
-double
-Vector2::dist(const Vector2 &v) const
+template<typename T>
+T
+Vector2<T>::dist(const Vector2<T> &v) const
 {
-	return hypot(x - v.x, y - v.y);
+	if constexpr (std::is_same_v<T, float>) {
+		return hypotf(x - v.x, y - v.y);
+	} else if constexpr (std::is_same_v<T, double>) {
+		return hypot(x - v.x, y - v.y);
+	}
+	static_assert(true, "Must be floating-point type");
 }
 
-double
-Vector2::norm2() const
+template<typename T>
+T
+Vector2<T>::norm2() const
 {
 	return x * x + y * y;
 }
 
+template<typename T>
 bool
-Vector2::operator ==(const Vector2 &v) const
+Vector2<T>::operator ==(const Vector2<T> &v) const
 {
 	return (this->x == v.x) && (this->y == v.y);
 }
 
+template<typename U>
 std::ostream &
-operator <<(std::ostream &str, const Vector2 &v)
+operator <<(std::ostream &str, const Vector2<U> &v)
 {
 	return str << "Point x: " << v.x << " y: " << v.y;
 }
 
-bool almost_equal(const Vector2 &v1, const Vector2 &v2, int ulp)
-{
-	return almost_equal(v1.x, v2.x, ulp) && almost_equal(v1.y, v2.y, ulp);
-}
+template struct Vector2<float>;
+template struct Vector2<double>;

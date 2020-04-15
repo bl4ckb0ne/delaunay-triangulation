@@ -1,24 +1,24 @@
 #include "edge.h"
 
-Edge::Edge(const VertexType &v1, const VertexType &v2) :
+template<typename T>
+Edge<T>::Edge(const VertexType &v1, const VertexType &v2) :
 	v(&v1), w(&v2)
 {}
 
+template<typename T>
 bool
-Edge::operator ==(const Edge &e) const
+Edge<T>::operator ==(const Edge<T> &e) const
 {
 	return (*(this->v) == *e.v && *(this->w) == *e.w) ||
 			(*(this->v) == *e.w && *(this->w) == *e.v);
 }
 
+template<typename U>
 std::ostream&
-operator <<(std::ostream &str, const Edge &e)
+operator <<(std::ostream &str, const Edge<U> &e)
 {
 	return str << "Edge " << *e.v << ", " << *e.w;
 }
 
-bool almost_equal(const Edge &e1, const Edge &e2)
-{
-	return	(almost_equal(*e1.v, *e2.v) && almost_equal(*e1.w, *e2.w)) ||
-			(almost_equal(*e1.v, *e2.w) && almost_equal(*e1.w, *e2.v));
-}
+template struct Edge<float>;
+template struct Edge<double>;

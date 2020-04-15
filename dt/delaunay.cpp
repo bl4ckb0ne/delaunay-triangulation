@@ -1,16 +1,17 @@
 #include "delaunay.h"
 
-const std::vector<Delaunay::TriangleType>&
-Delaunay::triangulate(std::vector<VertexType> &vertices)
+template<typename T>
+const std::vector<typename Delaunay<T>::TriangleType>&
+Delaunay<T>::triangulate(std::vector<VertexType> &vertices)
 {
 	// Store the vertices locally
 	_vertices = vertices;
 
 	// Determinate the super triangle
-	double minX = vertices[0].x;
-	double minY = vertices[0].y;
-	double maxX = minX;
-	double maxY = minY;
+	T minX = vertices[0].x;
+	T minY = vertices[0].y;
+	T maxX = minX;
+	T maxY = minY;
 
 	for(std::size_t i = 0; i < vertices.size(); ++i)
 	{
@@ -20,11 +21,11 @@ Delaunay::triangulate(std::vector<VertexType> &vertices)
 		if (vertices[i].y > maxY) maxY = vertices[i].y;
 	}
 
-	const double dx = maxX - minX;
-	const double dy = maxY - minY;
-	const double deltaMax = std::max(dx, dy);
-	const double midx = half(minX + maxX);
-	const double midy = half(minY + maxY);
+	const T dx = maxX - minX;
+	const T dy = maxY - minY;
+	const T deltaMax = std::max(dx, dy);
+	const T midx = half(minX + maxX);
+	const T midy = half(minY + maxY);
 
 	const VertexType p1(midx - 20 * deltaMax, midy - deltaMax);
 	const VertexType p2(midx, midy + 20 * deltaMax);
@@ -87,20 +88,26 @@ Delaunay::triangulate(std::vector<VertexType> &vertices)
 	return _triangles;
 }
 
-const std::vector<Delaunay::TriangleType>&
-Delaunay::getTriangles() const
+template<typename T>
+const std::vector<typename Delaunay<T>::TriangleType>&
+Delaunay<T>::getTriangles() const
 {
 	return _triangles;
 }
 
-const std::vector<Delaunay::EdgeType>&
-Delaunay::getEdges() const
+template<typename T>
+const std::vector<typename Delaunay<T>::EdgeType>&
+Delaunay<T>::getEdges() const
 {
 	return _edges;
 }
 
-const std::vector<Delaunay::VertexType>&
-Delaunay::getVertices() const
+template<typename T>
+const std::vector<typename Delaunay<T>::VertexType>&
+Delaunay<T>::getVertices() const
 {
 	return _vertices;
 }
+
+template class Delaunay<float>;
+template class Delaunay<double>;

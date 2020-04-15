@@ -26,37 +26,20 @@ int main(int argc, char * argv[])
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vector2> points;
+	std::vector<Vector2<double>> points;
 	for(int i = 0; i < numberPoints; ++i) {
-		points.push_back(Vector2{dist_w(eng), dist_h(eng)});
+		points.push_back(Vector2<double>{dist_w(eng), dist_h(eng)});
 	}
 
-	Delaunay triangulation;
+	Delaunay<double> triangulation;
 	const auto start = std::chrono::high_resolution_clock::now();
-	const std::vector<Triangle> triangles = triangulation.triangulate(points);
+	const std::vector<Triangle<double>> triangles = triangulation.triangulate(points);
 	const auto end = std::chrono::high_resolution_clock::now();
 	const std::chrono::duration<double> diff = end - start;
 
 	std::cout << triangles.size() << " triangles generated in " << diff.count()
 			<< "s\n";
-//	return 0;
-	const std::vector<Edge> edges = triangulation.getEdges();
-
-	/*
-	std::cout << " ========= ";
-
-	std::cout << "\nPoints : " << points.size() << std::endl;
-	for(const auto &p : points)
-		std::cout << p << std::endl;
-
-	std::cout << "\nTriangles : " << triangles.size() << std::endl;
-	for(const auto &t : triangles)
-		std::cout << t << std::endl;
-
-	std::cout << "\nEdges : " << edges.size() << std::endl;
-	for(const auto &e : edges)
-		std::cout << e << std::endl;
-	*/
+	const std::vector<Edge<double>> edges = triangulation.getEdges();
 
 	// SFML window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");

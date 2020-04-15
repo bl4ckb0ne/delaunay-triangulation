@@ -8,12 +8,22 @@
 #include <vector>
 #include <algorithm>
 
+template<typename T>
 class Delaunay
 {
+	using Type = T;
+	using VertexType = Vector2<Type>;
+	using EdgeType = Edge<Type>;
+	using TriangleType = Triangle<Type>;
+
+	static_assert(std::is_floating_point_v<Delaunay<T>::Type>,
+		"Type must be floating-point");
+
+	std::vector<TriangleType> _triangles;
+	std::vector<EdgeType> _edges;
+	std::vector<VertexType> _vertices;
+
 public:
-	using TriangleType = Triangle;
-	using EdgeType = Edge;
-	using VertexType = Vector2;
 
 	Delaunay() = default;
 	Delaunay(const Delaunay&) = delete;
@@ -26,11 +36,6 @@ public:
 
 	Delaunay& operator=(const Delaunay&) = delete;
 	Delaunay& operator=(Delaunay&&) = delete;
-
-private:
-	std::vector<TriangleType> _triangles;
-	std::vector<EdgeType> _edges;
-	std::vector<VertexType> _vertices;
 };
 
 #endif

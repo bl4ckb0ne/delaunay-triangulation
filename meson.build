@@ -1,7 +1,7 @@
 project(
 	'delaunay-triangulation',
 	'cpp',
-	version: '2.0.0',
+	version: '2.1.0',
 	license: 'MIT',
 	meson_version: '>=0.50.0',
 	default_options: [
@@ -19,10 +19,10 @@ add_project_arguments(
 	'-Wcast-align',
 	'-Wunused',
 	'-Woverloaded-virtual',
-	'-Wpedantic',
 	'-Wconversion',
 	'-Wsign-conversion',
 	'-Wno-format-nonliteral',
+	'-Wfatal-errors',
 	language: 'cpp',
 )
 
@@ -33,6 +33,9 @@ endif
 include = include_directories('include')
 
 install_headers(
+	'include/vector2.h',
+	'include/edge.h',
+	'include/triangle.h',
 	'include/delaunay.h',
 	subdir: 'dt',
 )
@@ -40,7 +43,6 @@ install_headers(
 lib_dt = shared_library(
 	meson.project_name(),
 	files(
-		'dt/numeric.cpp',
 		'dt/vector2.cpp',
 		'dt/edge.cpp',
 		'dt/triangle.cpp',
@@ -56,16 +58,20 @@ dt = declare_dependency(
 	include_directories: include,
 )
 
-catch2 = dependency('catch2')
-tests = executable(
-	'tests',
-	'tests/tests.cpp',
-	dependencies: [dt, catch2],
-)
+catch2 = dependency('catch2', required : false)
+if catch2.found()
+	tests = executable(
+		'tests',
+		'tests/tests.cpp',
+		dependencies: [dt, catch2],
+	)
+endif
 
-sfml = dependency('sfml-graphics')
-example = executable(
-	'example',
-	'example/main.cpp',
-	dependencies: [dt, sfml],
-)
+sfml = dependency('sfml-graphics', required : false)
+if sfml.found()
+	example = executable(
+		'example',
+		'example/main.cpp',
+		dependencies: [dt, sfml],
+	)
+endif
