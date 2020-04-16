@@ -4,6 +4,8 @@
 #include <math.h>
 #include <limits>
 
+namespace dt {
+
 /**
  * @brief use of machine epsilon to compare floating-point values for equality
  * http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
@@ -34,5 +36,7 @@ T half(const T x)
 	}
 	static_assert(true, "Must be floating-point type");
 }
+
+} // namespace dt
 
 #endif

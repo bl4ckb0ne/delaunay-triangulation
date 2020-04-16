@@ -5,6 +5,8 @@
 #include "vector2.h"
 #include "edge.h"
 
+namespace dt {
+
 template<typename T>
 struct Triangle
 {
@@ -43,5 +45,7 @@ bool almost_equal(const Triangle<T> &t1, const Triangle<T> &t2)
 			(almost_equal(*t1.b , *t2.a) || almost_equal(*t1.b , *t2.b) || almost_equal(*t1.b , *t2.c)) &&
 			(almost_equal(*t1.c , *t2.a) || almost_equal(*t1.c , *t2.b) || almost_equal(*t1.c , *t2.c));
 }
+
+} // namespace dt
 
 #endif
