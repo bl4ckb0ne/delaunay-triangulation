@@ -1,0 +1,36 @@
+name: CI
+on: [push, pull_request]
+jobs:
+
+  macos:
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install homebrew packages
+      run: brew install cmake git meson pkg-config
+    - name: Install Catch2
+      run: git clone -b v2.11.3 https://github.com/catchorg/Catch2.git &&
+        cd Catch2 &&
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF &&
+        cmake --build build/ --target install
+    - run: meson build
+    - run: ninja -C build
+    - run: ./build/tests --durations yes
+
+  ubuntu-1910_gcc:
+    runs-on: ubuntu-18.04
+    container:
+      image: ubuntu:19.10
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install APT packages
+      run: apt-get update && apt-get install -y
+        cmake g++ git libsfml-dev meson ninja-build pkg-config
+    - name: Install Catch2
+      run: git clone -b v2.11.3 https://github.com/catchorg/Catch2.git &&
+        cd Catch2 &&
+        cmake -Bbuild -H. -DBUILD_TESTING=OFF &&
+        cmake --build build/ --target install
+    - run: meson build
+    - run: ninja -C build
+    - run: ./build/tests --durations yes
