@@ -26,20 +26,20 @@ int main(int argc, char * argv[])
 
 	std::cout << "Generating " << numberPoints << " random points" << std::endl;
 
-	std::vector<Vector2<double>> points;
+	std::vector<dt::Vector2<double>> points;
 	for(int i = 0; i < numberPoints; ++i) {
-		points.push_back(Vector2<double>{dist_w(eng), dist_h(eng)});
+		points.push_back(dt::Vector2<double>{dist_w(eng), dist_h(eng)});
 	}
 
-	Delaunay<double> triangulation;
+	dt::Delaunay<double> triangulation;
 	const auto start = std::chrono::high_resolution_clock::now();
-	const std::vector<Triangle<double>> triangles = triangulation.triangulate(points);
+	const std::vector<dt::Triangle<double>> triangles = triangulation.triangulate(points);
 	const auto end = std::chrono::high_resolution_clock::now();
 	const std::chrono::duration<double> diff = end - start;
 
 	std::cout << triangles.size() << " triangles generated in " << diff.count()
 			<< "s\n";
-	const std::vector<Edge<double>> edges = triangulation.getEdges();
+	const std::vector<dt::Edge<double>> edges = triangulation.getEdges();
 
 	// SFML window
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");

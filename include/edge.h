@@ -3,6 +3,8 @@
 
 #include "vector2.h"
 
+namespace dt {
+
 template<typename T>
 struct Edge
 {
@@ -36,6 +38,8 @@ almost_equal(const Edge<T> &e1, const Edge<T> &e2)
 	return	(almost_equal(*e1.v, *e2.v) && almost_equal(*e1.w, *e2.w)) ||
 			(almost_equal(*e1.v, *e2.w) && almost_equal(*e1.w, *e2.v));
 }
+
+} // namespace dt
 
 #endif
 

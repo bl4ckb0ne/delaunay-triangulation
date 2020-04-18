@@ -8,6 +8,8 @@
 #include <vector>
 #include <algorithm>
 
+namespace dt {
+
 template<typename T>
 class Delaunay
 {
@@ -37,5 +39,7 @@ public:
 	Delaunay& operator=(const Delaunay&) = delete;
 	Delaunay& operator=(Delaunay&&) = delete;
 };
+
+} // namespace dt
 
 #endif

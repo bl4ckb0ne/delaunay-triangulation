@@ -7,6 +7,8 @@
 #include <cmath>
 #include <type_traits>
 
+namespace dt {
+
 template<typename T>
 struct Vector2
 {
@@ -38,5 +40,7 @@ bool almost_equal(const Vector2<T> &v1, const Vector2<T> &v2)
 {
 	return almost_equal(v1.x, v2.x) && almost_equal(v1.y, v2.y);
 }
+
+} // namespace dt
 
 #endif

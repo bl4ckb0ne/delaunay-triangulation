@@ -1,5 +1,7 @@
 #include "vector2.h"
 
+namespace dt {
+
 template<typename T>
 Vector2<T>::Vector2(const T vx, const T vy) :
 	x(vx), y(vy)
@@ -49,3 +51,5 @@ operator <<(std::ostream &str, const Vector2<U> &v)
 
 template struct Vector2<float>;
 template struct Vector2<double>;
+
+} // namespace dt

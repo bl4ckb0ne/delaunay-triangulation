@@ -3,6 +3,8 @@
 #include <catch2/catch.hpp>
 #include "delaunay.h"
 
+namespace dt {
+
 TEST_CASE( "Delaunay triangulation should be able to triangulate 3 points as double", "[DelaunayTest]" ) {
 	std::vector<Vector2<double>> points;
 	points.push_back(Vector2<double>{0.0, 0.0});
@@ -39,4 +41,6 @@ TEST_CASE("Delaunay triangulation should be able to handle 10000 points as doubl
 	REQUIRE(points.size() == nb_pts);
 	Delaunay<double> triangulation;
 	const std::vector<Triangle<double>> triangles = triangulation.triangulate(points);
+}
+
 }

@@ -1,5 +1,7 @@
 #include "triangle.h"
 
+namespace dt {
+
 template<typename T>
 Triangle<T>::Triangle(const VertexType &v1, const VertexType &v2, const VertexType &v3) :
 	a(&v1), b(&v2), c(&v3), isBad(false)
@@ -58,3 +60,5 @@ operator <<(std::ostream &str, const Triangle<U> &t)
 
 template struct Triangle<float>;
 template struct Triangle<double>;
+
+} // namespace dt

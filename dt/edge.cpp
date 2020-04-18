@@ -1,5 +1,7 @@
 #include "edge.h"
 
+namespace dt {
+
 template<typename T>
 Edge<T>::Edge(const VertexType &v1, const VertexType &v2) :
 	v(&v1), w(&v2)
@@ -22,3 +24,5 @@ operator <<(std::ostream &str, const Edge<U> &e)
 
 template struct Edge<float>;
 template struct Edge<double>;
+
+} // namespace dt

@@ -1,5 +1,7 @@
 #include "delaunay.h"
 
+namespace dt {
+
 template<typename T>
 const std::vector<typename Delaunay<T>::TriangleType>&
 Delaunay<T>::triangulate(std::vector<VertexType> &vertices)
@@ -111,3 +113,5 @@ Delaunay<T>::getVertices() const
 
 template class Delaunay<float>;
 template class Delaunay<double>;
+
+} // namespace dt
