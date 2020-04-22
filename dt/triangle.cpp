@@ -33,7 +33,7 @@ Triangle<T>::circumCircleContains(const VertexType &v) const
 	const T circum_x = (ab * (cy - by) + cd * (ay - cy) + ef * (by - ay)) / (ax * (cy - by) + bx * (ay - cy) + cx * (by - ay));
 	const T circum_y = (ab * (cx - bx) + cd * (ax - cx) + ef * (bx - ax)) / (ay * (cx - bx) + by * (ax - cx) + cy * (bx - ax));
 
-	const VertexType circum(half(circum_x), half(circum_y));
+	const VertexType circum(circum_x / 2, circum_y / 2);
 	const T circum_radius = a->dist2(circum);
 	const T dist = v.dist2(circum);
 	return dist <= circum_radius;

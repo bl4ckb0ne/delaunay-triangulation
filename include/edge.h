@@ -27,7 +27,7 @@ struct Edge
 	const VertexType *w;
 	bool isBad = false;
 
-	static_assert(std::is_floating_point_v<Edge<T>::Type>,
+	static_assert(std::is_floating_point<Edge<T>::Type>::value,
 		"Type must be floating-point");
 };
 
@@ -42,4 +42,3 @@ almost_equal(const Edge<T> &e1, const Edge<T> &e2)
 } // namespace dt
 
 #endif
-

@@ -18,7 +18,7 @@ class Delaunay
 	using EdgeType = Edge<Type>;
 	using TriangleType = Triangle<Type>;
 
-	static_assert(std::is_floating_point_v<Delaunay<T>::Type>,
+	static_assert(std::is_floating_point<Delaunay<T>::Type>::value,
 		"Type must be floating-point");
 
 	std::vector<TriangleType> _triangles;
