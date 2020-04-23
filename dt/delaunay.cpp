@@ -26,8 +26,8 @@ Delaunay<T>::triangulate(std::vector<VertexType> &vertices)
 	const T dx = maxX - minX;
 	const T dy = maxY - minY;
 	const T deltaMax = std::max(dx, dy);
-	const T midx = half(minX + maxX);
-	const T midy = half(minY + maxY);
+	const T midx = (minX + maxX) / 2;
+	const T midy = (minY + maxY) / 2;
 
 	const VertexType p1(midx - 20 * deltaMax, midy - deltaMax);
 	const VertexType p2(midx, midy + 20 * deltaMax);
@@ -45,9 +45,9 @@ Delaunay<T>::triangulate(std::vector<VertexType> &vertices)
 			if(t.circumCircleContains(*p))
 			{
 				t.isBad = true;
-				polygon.push_back(Edge{*t.a, *t.b});
-				polygon.push_back(Edge{*t.b, *t.c});
-				polygon.push_back(Edge{*t.c, *t.a});
+				polygon.push_back(Edge<T>{*t.a, *t.b});
+				polygon.push_back(Edge<T>{*t.b, *t.c});
+				polygon.push_back(Edge<T>{*t.c, *t.a});
 			}
 		}
 
@@ -82,9 +82,9 @@ Delaunay<T>::triangulate(std::vector<VertexType> &vertices)
 
 	for(const auto t : _triangles)
 	{
-		_edges.push_back(Edge{*t.a, *t.b});
-		_edges.push_back(Edge{*t.b, *t.c});
-		_edges.push_back(Edge{*t.c, *t.a});
+		_edges.push_back(Edge<T>{*t.a, *t.b});
+		_edges.push_back(Edge<T>{*t.b, *t.c});
+		_edges.push_back(Edge<T>{*t.c, *t.a});
 	}
 
 	return _triangles;

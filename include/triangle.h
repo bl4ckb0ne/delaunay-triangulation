@@ -34,7 +34,7 @@ struct Triangle
 	const VertexType *c;
 	bool isBad = false;
 
-	static_assert(std::is_floating_point_v<Triangle<T>::Type>,
+	static_assert(std::is_floating_point<Triangle<T>::Type>::value,
 		"Type must be floating-point");
 };
 

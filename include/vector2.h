@@ -31,7 +31,7 @@ struct Vector2
 	T x;
 	T y;
 
-	static_assert(std::is_floating_point_v<Vector2<T>::Type>,
+	static_assert(std::is_floating_point<Vector2<T>::Type>::value,
 		"Type must be floating-point");
 };
 

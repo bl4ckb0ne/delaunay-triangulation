@@ -16,16 +16,18 @@ Vector2<T>::dist2(const Vector2<T> &v) const
 	return dx * dx + dy * dy;
 }
 
-template<typename T>
-T
-Vector2<T>::dist(const Vector2<T> &v) const
+template<>
+float
+Vector2<float>::dist(const Vector2<float> &v) const
 {
-	if constexpr (std::is_same_v<T, float>) {
-		return hypotf(x - v.x, y - v.y);
-	} else if constexpr (std::is_same_v<T, double>) {
-		return hypot(x - v.x, y - v.y);
-	}
-	static_assert(true, "Must be floating-point type");
+	return hypotf(x - v.x, y - v.y);
+}
+
+template<>
+double
+Vector2<double>::dist(const Vector2<double> &v) const
+{
+	return hypot(x - v.x, y - v.y);
 }
 
 template<typename T>

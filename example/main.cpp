@@ -62,7 +62,7 @@ int main(int argc, char * argv[])
 					static_cast<float>(e.w->x + 2.),
 					static_cast<float>(e.w->y + 2.))),
 		}};
-		window.draw(std::data(line), 2, sf::Lines);
+		window.draw(line.data(), 2, sf::Lines);
 	}
 
 	window.display();
